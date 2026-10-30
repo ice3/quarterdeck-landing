@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KANDO</title>
-<meta name="description" content="KANDO. The networking platform created exclusively for yachting professionals. Created by humans, for humans.">
-<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The first networking and social platform created exclusively for yachting professionals. Not shipping, not offshore. Yachting only. Request early access.">
+<meta name="theme-color" content="#fbfaf7">
 <meta property="og:title" content="KANDO">
 <meta property="og:description" content="The networking platform created exclusively for yachting professionals.">
 <meta property="og:type" content="website">
@@ -15,14 +15,14 @@
 
 :root {
   color-scheme: light;
-  --bg: #ffffff;
-  --bg-soft: #f5f5f7;
+  --bg: #fbfaf7;
+  --bg-soft: #f3f1ec;
   --ink: #0b1a2b;
   --ink-2: #515154;
   --ink-3: #6e6e73;
-  --line: rgba(0,0,0,.08);
+  --line: rgba(11,26,43,.09);
   --field: #ffffff;
-  --field-line: #d2d2d7;
+  --field-line: #d7d3cb;
   --sans: 'Geist', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
   --ease: cubic-bezier(.32, .72, 0, 1);
   --ease-out: cubic-bezier(.16, 1, .3, 1);
@@ -59,7 +59,7 @@ a { color: inherit; }
   inset: 0 0 auto 0;
   height: var(--nav-h);
   z-index: 10;
-  background: rgba(255,255,255,.72);
+  background: rgba(251,250,247,.78);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--line);
@@ -238,41 +238,77 @@ a { color: inherit; }
   max-width: 60ch;
 }
 
-/* ---- Form ---- */
-.apply { scroll-margin-top: var(--nav-h); }
-.form-shell {
-  margin-top: clamp(2.5rem, 6vh, 4rem);
-  background: #fff;
-  border-radius: 24px;
-  padding: clamp(1.75rem, 4vw, 3rem);
-  box-shadow: 0 1px 2px rgba(0,0,0,.03), 0 24px 60px -30px rgba(0,0,0,.16);
-  max-width: 760px;
+/* ---- CTA band ---- */
+.cta .actions { margin-top: 2rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.cta .fine { margin: 1.25rem 0 0; font-size: 13.5px; color: var(--ink-3); }
+
+/* ---- Join modal ---- */
+.modal {
+  border: 0;
+  padding: 0;
+  margin: auto;
+  width: min(100% - 2rem, 540px);
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+.modal::backdrop {
+  background: rgba(11,26,43,.42);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+.modal[open] .modal__card { animation: modalIn 520ms var(--ease-out) both; }
+.modal[open]::backdrop { animation: fadeIn 400ms var(--ease-out) both; }
+@keyframes modalIn { from { opacity: 0; transform: translateY(18px) scale(.975); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal__card {
   position: relative;
-  overflow: hidden;
-}
-.fields {
+  background: #fff;
+  border-radius: 28px;
+  padding: 2.25rem 2.5rem 2.25rem;
+  box-shadow: 0 1px 1px rgba(11,26,43,.05), 0 30px 80px -24px rgba(11,26,43,.45);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1rem 1rem;
+  gap: 1.75rem;
 }
-.field { display: grid; gap: .4rem; }
-.field.wide { grid-column: 1 / -1; }
-.field label {
-  font-size: 13px;
-  font-weight: 500;
+.modal__top { display: flex; align-items: center; justify-content: space-between; }
+.modal__brand { font-size: 12px; font-weight: 500; letter-spacing: .32em; color: var(--ink-2); }
+.modal__close {
+  -webkit-appearance: none; appearance: none;
+  width: 34px; height: 34px;
+  border: 0; border-radius: 50%;
+  background: var(--bg-soft);
   color: var(--ink-2);
-  letter-spacing: -.005em;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background-color 300ms var(--ease), color 300ms var(--ease), transform 300ms var(--ease);
 }
+.modal__close:hover { background: #e9e6df; color: var(--ink); }
+.modal__close:active { transform: scale(.94); }
+.modal__close svg { width: 12px; height: 12px; }
+.modal__progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.modal__progress span { height: 3px; border-radius: 3px; background: var(--bg-soft); overflow: hidden; position: relative; }
+.modal__progress span::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-out); }
+.modal__progress span.is-done::after { transform: scaleX(1); }
+.modal.is-success .modal__progress { display: none; }
+
+.step { display: none; }
+.step.is-active { display: grid; gap: 1.25rem; animation: stepIn 420ms var(--ease-out) both; }
+.step.is-active.from-back { animation-name: stepBack; }
+@keyframes stepIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+@keyframes stepBack { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+.step__n { margin: 0; font-size: 12.5px; font-weight: 500; color: var(--ink-3); letter-spacing: .02em; }
+.step__title { margin: 0; font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.08; text-wrap: balance; }
+.step__hint { margin: -.5rem 0 0; color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+.step__fields { display: grid; gap: .9rem; }
+
+.field { display: grid; gap: .4rem; }
+.field label { font-size: 13px; font-weight: 500; color: var(--ink-2); }
 .field label .opt { font-weight: 400; color: var(--ink-3); }
 .field input {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  margin: 0;
-  padding: .8rem .95rem;
-  font: inherit;
-  font-size: 16px;
-  letter-spacing: -.01em;
+  -webkit-appearance: none; appearance: none;
+  width: 100%; margin: 0;
+  padding: .85rem 1rem;
+  font: inherit; font-size: 16px; letter-spacing: -.01em;
   color: var(--ink);
   background: var(--field);
   border: 1px solid var(--field-line);
@@ -280,35 +316,48 @@ a { color: inherit; }
   caret-color: var(--ink);
   transition: border-color 300ms var(--ease), box-shadow 300ms var(--ease);
 }
+.field input.is-big { font-size: 19px; padding: 1rem 1.1rem; }
 .field input::placeholder { color: var(--ink-3); opacity: 1; }
-.field input:hover { border-color: #b8b8bd; }
-.field input:focus {
-  outline: none;
-  border-color: var(--ink);
-  box-shadow: 0 0 0 4px rgba(11,26,43,.10);
-}
+.field input:hover { border-color: #b9b4aa; }
+.field input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px rgba(11,26,43,.10); }
 .field .msg { min-height: 1em; font-size: 13px; line-height: 1.3; color: var(--ink-3); }
-.field.is-invalid input { border-color: #c0392b; box-shadow: 0 0 0 4px rgba(192,57,43,.10); }
-.field.is-invalid .msg { color: #b03224; }
-.form-foot {
-  margin-top: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-.form-foot .fine { margin: 0; max-width: 42ch; }
+.field.is-invalid input { border-color: #b3261e; box-shadow: 0 0 0 4px rgba(179,38,30,.10); }
+.field.is-invalid .msg { color: #9c2219; }
 
-.receipt { display: none; }
-.form-shell.is-received form { display: none; }
-.form-shell.is-received .receipt { display: block; }
-.receipt h3 { margin: 0; font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; }
-.receipt .ref { margin: 1.5rem 0 0; font-size: 13px; color: var(--ink-3); }
-.receipt .ref b { display: block; margin-top: .25rem; font-size: 1.4rem; font-weight: 500; letter-spacing: .02em; color: var(--ink); font-variant-numeric: tabular-nums; }
-.receipt p { margin: 1.25rem 0 0; max-width: 46ch; color: var(--ink-2); }
-.receipt .in { animation: rise 700ms var(--ease-out) both; }
-@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip {
+  -webkit-appearance: none; appearance: none;
+  padding: .55rem .95rem;
+  font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -.01em;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--field-line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 300ms var(--ease), border-color 300ms var(--ease), color 300ms var(--ease), transform 300ms var(--ease);
+}
+.chip:hover { border-color: var(--ink); }
+.chip:active { transform: scale(.97); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.chips + .msg { min-height: 1em; font-size: 13px; color: #9c2219; }
+
+.modal__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.modal__foot .fine { margin: 0; font-size: 12.5px; color: var(--ink-3); max-width: 28ch; }
+.modal__nav { display: flex; align-items: center; gap: .75rem; margin-left: auto; }
+.modal__nav .btn { white-space: nowrap; }
+.btn[hidden] { display: none; }
+.btn--ghost { background: transparent; color: var(--ink-2); padding-left: 1rem; padding-right: 1rem; }
+.btn--ghost:hover { background: var(--bg-soft); color: var(--ink); }
+.modal.is-success .modal__foot { display: none; }
+
+.done { text-align: left; }
+.done .done__mark { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: .25rem; animation: pop 600ms var(--ease-out) both; }
+.done .done__mark svg { width: 18px; height: 18px; }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+.done .ref { margin: .25rem 0 0; font-size: 12.5px; color: var(--ink-3); }
+.done .ref b { display: block; margin-top: .2rem; font-size: 1.25rem; font-weight: 500; letter-spacing: .04em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.done p { margin: 0; color: var(--ink-2); }
+.done .btn { justify-self: start; margin-top: .5rem; }
 
 /* ---- Footer ---- */
 footer {
@@ -323,10 +372,10 @@ footer p { margin: 0; }
 /* ---- Scroll reveal ---- */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: var(--d, 0ms); }
 .reveal.in { opacity: 1; transform: none; }
-html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
+html.no-io .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .receipt .in { animation: none; }
+  .modal[open] .modal__card, .modal[open]::backdrop, .step.is-active, .done .done__mark { animation: none; }
 }
 
 /* ---- Responsive ---- */
@@ -339,9 +388,13 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
   .hero { padding-top: calc(var(--nav-h) + 3.5rem); }
   .hero .actions { flex-direction: column; gap: 1.25rem; }
   .btn { width: 100%; justify-content: space-between; padding-left: 1.4rem; }
-  .fields { grid-template-columns: 1fr; }
-  .form-foot { flex-direction: column-reverse; align-items: stretch; }
-  .form-foot .fine { max-width: none; }
+  .modal { width: 100%; max-width: none; margin: auto 0 0; }
+  .modal__card { border-radius: 24px 24px 0 0; padding: 1.6rem 1.35rem calc(1.6rem + env(safe-area-inset-bottom)); }
+  .modal__foot { flex-direction: column-reverse; align-items: stretch; }
+  .modal__foot .fine { max-width: none; }
+  .modal__nav { margin-left: 0; }
+  .modal__nav .btn { flex: 1; }
+  .cta .actions { flex-direction: column; align-items: stretch; }
 }
 </style>
 <script>document.documentElement.className = (('IntersectionObserver' in window) ? '' : 'no-io');</script>
@@ -364,6 +417,8 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
     <symbol id="arrow" viewBox="0 0 12 12">
       <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
+    <symbol id="x" viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="check" viewBox="0 0 18 18"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="chev" viewBox="0 0 10 10">
       <path d="M3 1.5 6.5 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
@@ -373,7 +428,7 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
 <header class="nav">
   <div class="wrap--wide">
     <a class="brand" href="#top" aria-label="KANDO">KANDO</a>
-    <a class="link" href="#apply">Join the waitlist</a>
+    <a class="link" href="#apply" data-open-join>Request early access</a>
   </div>
 </header>
 
@@ -382,9 +437,9 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
   <section class="hero">
     <div class="wrap">
       <h1>Yachting finally has its own room.</h1>
-      <p class="sub">KANDO is the networking platform created exclusively for yachting professionals. Not maritime. Not shipping. Yachting.</p>
+      <p class="sub">KANDO is the first networking and social platform created exclusively for yachting professionals. No tankers, no offshore, nobody asking what a tender is.</p>
       <div class="actions">
-        <a class="btn" href="#apply">Join the waitlist <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
+        <a class="btn" href="#apply" data-open-join>Request early access <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
         <a class="text-link" href="#admission">Why KANDO <svg aria-hidden="true"><use href="#chev"/></svg></a>
       </div>
     </div>
@@ -393,20 +448,20 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
 
   <section class="section" aria-labelledby="gain-title">
     <div class="wrap reveal">
-      <h2 id="gain-title">You asked, and we listened.</h2>
-      <p class="lead">Yachting deserves its own space rather than being tossed into the broader maritime industry alongside commercial shipping and offshore operations. So we built one.</p>
+      <h2 id="gain-title">The important conversations happen behind closed doors.</h2>
+      <p class="lead">You asked, we listened. Monaco ends, Amsterdam ends, and the momentum usually ends with them. KANDO keeps the room open all year.</p>
       <div class="cols">
         <div class="reveal" style="--d:80ms">
-          <h3>The right room</h3>
-          <p>Everyone here works in yachting. Brokers, yards, designers, captains, managers, suppliers, brands. Nobody selling you containers.</p>
+          <h3>Only yachting</h3>
+          <p>Every member works in yachting. Brokers, yards, designers, captains and crew, managers, suppliers, brands. No one from a container line. With respect.</p>
         </div>
         <div class="reveal" style="--d:160ms">
-          <h3>Beyond the show</h3>
-          <p>The conversations that start in Monaco, at the Superyacht Forum or at METSTRADE should not end when the stands come down. Here they carry on all year.</p>
+          <h3>The show, all year</h3>
+          <p>Monaco, Cannes, Fort Lauderdale, Amsterdam. The introductions you make in September shouldn't go cold by October. Pick up the thread on KANDO, from wherever the boat is.</p>
         </div>
         <div class="reveal" style="--d:240ms">
-          <h3>Behind closed doors</h3>
-          <p>In yachting, the important conversations are the private ones. Groups, direct messages and introductions, away from the public feed.</p>
+          <h3>Collaboration, not broadcasting</h3>
+          <p>Yachting runs on shared ideas and quiet introductions. Ask the room, find the specialist, start the project. “I met her on KANDO” is the whole point.</p>
         </div>
       </div>
     </div>
@@ -414,64 +469,24 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
 
   <section class="section section--soft" id="admission" aria-labelledby="about-title">
     <div class="wrap reveal">
-      <h2 id="about-title">Screened for professionalism, not for status.</h2>
-      <p class="lead">Exclusively for business owners and professionals working in the yachting industry. We check every request so nobody wastes your time. That is the whole rule.</p>
+      <h2 id="about-title">We check one thing. You work in yachting.</h2>
+      <p class="lead">This isn't about status, seats or the size of the boat. It's about not wasting your time. Captain, deckhand, broker or yard owner: if yachting is your job, you belong here. We simply confirm it before you walk in.</p>
       <ol class="how">
-        <li>Join the waitlist with your work email, or get introduced by a member.</li>
-        <li>We confirm you work in yachting. Takes us a day, not a committee.</li>
-        <li>You are in. Connect, collaborate, create meaningful change together.</li>
+        <li>Leave your work email.</li>
+        <li>Tell us your name, company and role.</li>
+        <li>We confirm you're in yachting, then send your access.</li>
       </ol>
     </div>
   </section>
 
-  <section class="section apply" id="apply" aria-labelledby="apply-title">
+  <section class="section cta" id="apply" aria-labelledby="apply-title">
     <div class="wrap reveal">
-      <h2 id="apply-title">Created by humans, for humans.</h2>
-      <p class="lead">Request early access. A person reads every request, and writes back either way.</p>
-
-      <div class="form-shell" id="form-shell">
-        <form id="application" novalidate>
-          <div class="fields">
-            <div class="field">
-              <label for="f-name">Full name</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required placeholder="Your name">
-              <div class="msg" aria-live="polite"></div>
-            </div>
-            <div class="field">
-              <label for="f-company">Company</label>
-              <input id="f-company" name="company" type="text" autocomplete="organization" required placeholder="Your company">
-              <div class="msg" aria-live="polite"></div>
-            </div>
-            <div class="field">
-              <label for="f-role">Role</label>
-              <input id="f-role" name="role" type="text" autocomplete="organization-title" required placeholder="Your role">
-              <div class="msg" aria-live="polite"></div>
-            </div>
-            <div class="field">
-              <label for="f-email">Work email</label>
-              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@company.com">
-              <div class="msg" aria-live="polite"></div>
-            </div>
-            <div class="field wide">
-              <label for="f-referrer">Introduced by <span class="opt">(optional)</span></label>
-              <input id="f-referrer" name="referrer" type="text" autocomplete="off" placeholder="A member who sent you here">
-              <div class="msg" aria-live="polite"></div>
-            </div>
-          </div>
-          <div class="form-foot">
-            <p class="fine">Used only to decide on admission.</p>
-            <button class="btn" type="submit" id="submit">Join the waitlist <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></button>
-          </div>
-        </form>
-
-        <div class="receipt" role="status" aria-live="polite">
-          <div class="in">
-            <h3>You are on the list.</h3>
-            <div class="ref">Reference <b id="ref"></b></div>
-            <p id="receipt-copy"></p>
-          </div>
-        </div>
+      <h2 id="apply-title">Created by humans for humans.</h2>
+      <p class="lead">KANDO is the Japanese word for the feeling you get in front of something exceptional. It's also “can do”, which is how this industry gets things done. Built by yachting people, for yachting people.</p>
+      <div class="actions">
+        <button class="btn" type="button" data-open-join>Request early access <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></button>
       </div>
+      <p class="fine">Three short steps. About a minute.</p>
     </div>
   </section>
 
@@ -479,10 +494,99 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
 
 <footer>
   <div class="wrap--wide">
-    <p>KANDO. Created by humans, for humans.</p>
+    <p>Yachting only. Humans only. See you in Amsterdam.</p>
     <p>Series I · Amsterdam, November 2026</p>
   </div>
 </footer>
+
+<dialog class="modal" id="join" aria-labelledby="j-title">
+  <form class="modal__card" id="join-form" novalidate>
+    <div class="modal__top">
+      <span class="modal__brand">KANDO</span>
+      <button class="modal__close" type="button" data-close-join aria-label="Close"><svg aria-hidden="true"><use href="#x"/></svg></button>
+    </div>
+    <div class="modal__progress" aria-hidden="true"><span class="is-done"></span><span></span><span></span></div>
+
+    <section class="step is-active" data-step="1">
+      <p class="step__n">Step 1 of 3</p>
+      <h3 class="step__title" id="j-title">Your work email.</h3>
+      <p class="step__hint">A company address speeds up the check. Crew, the address you use for the boat is fine.</p>
+      <div class="step__fields">
+        <div class="field">
+          <label for="j-email">Work email</label>
+          <input id="j-email" class="is-big" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com">
+          <div class="msg" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="2">
+      <p class="step__n">Step 2 of 3</p>
+      <h3 class="step__title">Who are we talking to?</h3>
+      <p class="step__hint">Just enough to recognise you at the next show.</p>
+      <div class="step__fields">
+        <div class="field">
+          <label for="j-name">Full name</label>
+          <input id="j-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+          <div class="msg" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="j-company">Company or vessel</label>
+          <input id="j-company" name="company" type="text" autocomplete="organization" placeholder="Your company or vessel">
+          <div class="msg" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="j-role">Role</label>
+          <input id="j-role" name="role" type="text" autocomplete="organization-title" placeholder="Your role">
+          <div class="msg" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-step="3">
+      <p class="step__n">Step 3 of 3</p>
+      <h3 class="step__title">Your corner of yachting.</h3>
+      <p class="step__hint">Pick what fits. More than one is fine.</p>
+      <div class="step__fields">
+        <div>
+          <div class="chips" role="group" aria-label="Your corner of yachting, pick one or more" id="j-chips">
+            <button class="chip" type="button" aria-pressed="false" data-value="Brokerage &amp; sales">Brokerage &amp; sales</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Shipyard &amp; refit">Shipyard &amp; refit</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Design &amp; naval architecture">Design &amp; naval architecture</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Captain &amp; crew">Captain &amp; crew</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Management &amp; charter">Management &amp; charter</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Supplier &amp; equipment">Supplier &amp; equipment</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Brand, media &amp; events">Brand, media &amp; events</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Legal &amp; finance">Legal &amp; finance</button>
+            <button class="chip" type="button" aria-pressed="false" data-value="Other">Other</button>
+          </div>
+          <div class="msg" id="j-chips-msg" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="j-referrer">Introduced by <span class="opt">(optional)</span></label>
+          <input id="j-referrer" name="referrer" type="text" autocomplete="off" placeholder="Who sent you here? We'd like to thank them.">
+          <div class="msg"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step done" data-step="done" role="status" aria-live="polite">
+      <div class="done__mark"><svg aria-hidden="true"><use href="#check"/></svg></div>
+      <h3 class="step__title">Consider yourself noted.</h3>
+      <p id="j-done-copy"></p>
+      <div class="ref">Your reference <b id="j-ref"></b></div>
+      <button class="btn" type="button" data-close-join>Back to KANDO</button>
+    </section>
+
+    <div class="modal__foot">
+      <p class="fine">Used only to decide on admission.</p>
+      <div class="modal__nav">
+        <button class="btn btn--ghost" type="button" id="j-back" hidden>Back</button>
+        <button class="btn" type="submit" id="j-next">Continue <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></button>
+      </div>
+    </div>
+  </form>
+</dialog>
 
 <script>
 (function () {
@@ -499,10 +603,15 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
     reveals.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* Form */
-  var form = document.getElementById('application');
-  var shell = document.getElementById('form-shell');
-  var submit = document.getElementById('submit');
+  /* Join funnel */
+  var dlg = document.getElementById('join');
+  var form = document.getElementById('join-form');
+  var steps = Array.prototype.slice.call(form.querySelectorAll('.step'));
+  var bars = form.querySelectorAll('.modal__progress span');
+  var next = document.getElementById('j-next');
+  var back = document.getElementById('j-back');
+  var chips = document.getElementById('j-chips');
+  var current = 1, lastTrigger = null, corner = [];
   var FREE_MAIL = /@(gmail|googlemail|hotmail|outlook|live|yahoo|icloud|me|aol|proton|protonmail|gmx|orange|free|wanadoo|sfr|laposte)\./i;
 
   function field(name) { return form.querySelector('[name="' + name + '"]'); }
@@ -511,24 +620,41 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
   function setError(input, text) { wrap(input).classList.add('is-invalid'); msg(input).textContent = text; input.setAttribute('aria-invalid', 'true'); }
   function setNote(input, text) { wrap(input).classList.remove('is-invalid'); msg(input).textContent = text || ''; input.removeAttribute('aria-invalid'); }
 
-  function validate() {
+  function show(n, backwards) {
+    steps.forEach(function (s) { s.classList.remove('is-active', 'from-back'); });
+    var el = form.querySelector('[data-step="' + n + '"]');
+    el.classList.add('is-active'); if (backwards) el.classList.add('from-back');
+    var idx = (n === 'done') ? 3 : n;
+    for (var i = 0; i < bars.length; i++) bars[i].classList.toggle('is-done', i < idx);
+    back.hidden = !(n === 2 || n === 3);
+    next.lastChild.previousSibling && (next.firstChild.nodeValue = (n === 3) ? 'Request early access ' : 'Continue ');
+    dlg.classList.toggle('is-success', n === 'done');
+    current = n;
+    var first = el.querySelector('input, button.chip, button.btn');
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 60);
+  }
+
+  function validate(n) {
     var ok = true, first = null;
-    var name = field('name'), company = field('company'), role = field('role'), email = field('email');
-    if (!name.value.trim()) { setError(name, 'Enter your full name.'); ok = false; first = first || name; } else setNote(name);
-    if (!company.value.trim()) { setError(company, 'Enter the company you represent.'); ok = false; first = first || company; } else setNote(company);
-    if (!role.value.trim()) { setError(role, 'Enter your role there.'); ok = false; first = first || role; } else setNote(role);
-    var e = email.value.trim();
-    if (!e || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) { setError(email, 'Enter a valid email address.'); ok = false; first = first || email; }
-    else if (FREE_MAIL.test(e)) setNote(email, 'A personal address is accepted. A company address is verified faster.');
-    else setNote(email);
+    if (n === 1) {
+      var email = field('email'), e = email.value.trim();
+      if (!e || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) { setError(email, 'Enter a valid email address.'); ok = false; first = email; }
+      else if (FREE_MAIL.test(e)) setNote(email, 'A personal address works too. A company address is confirmed faster.');
+      else setNote(email);
+    }
+    if (n === 2) {
+      var name = field('name'), company = field('company'), role = field('role');
+      if (!name.value.trim()) { setError(name, 'Enter your full name.'); ok = false; first = first || name; } else setNote(name);
+      if (!company.value.trim()) { setError(company, 'Enter the company you represent.'); ok = false; first = first || company; } else setNote(company);
+      if (!role.value.trim()) { setError(role, 'Enter your role there.'); ok = false; first = first || role; } else setNote(role);
+    }
+    if (n === 3) {
+      var cm = document.getElementById('j-chips-msg');
+      if (!corner.length) { cm.textContent = 'Pick at least one. "Other" is fine.'; ok = false; } else cm.textContent = '';
+    }
     if (first) first.focus();
     return ok;
   }
-
-  form.addEventListener('input', function (ev) {
-    var input = ev.target;
-    if (input.tagName === 'INPUT' && wrap(input).classList.contains('is-invalid') && input.value.trim()) setNote(input);
-  });
 
   function reference() {
     var alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', out = '';
@@ -542,30 +668,67 @@ html.no-js .reveal, html.no-io .reveal { opacity: 1; transform: none; }
   // Wire a real endpoint here (Formspree, Netlify Forms, your API):
   // return fetch(ENDPOINT, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
   function submitApplication(data) {
-    return new Promise(function (resolve) { setTimeout(function () { resolve({ ok: true }); }, 600); });
+    return new Promise(function (resolve) { setTimeout(function () { resolve({ ok: true }); }, 700); });
   }
+
+  function openJoin(trigger) {
+    lastTrigger = trigger || null;
+    if (typeof dlg.showModal !== 'function') { location.hash = '#apply'; return; }
+    if (current !== 'done') show(1);
+    dlg.showModal();
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closeJoin() {
+    dlg.close();
+    document.documentElement.style.overflow = '';
+    if (lastTrigger && lastTrigger.focus) lastTrigger.focus();
+  }
+
+  document.querySelectorAll('[data-open-join]').forEach(function (el) {
+    el.addEventListener('click', function (ev) { ev.preventDefault(); openJoin(el); });
+  });
+  document.querySelectorAll('[data-close-join]').forEach(function (el) { el.addEventListener('click', closeJoin); });
+  dlg.addEventListener('click', function (ev) { if (ev.target === dlg) closeJoin(); });
+  dlg.addEventListener('cancel', function (ev) { ev.preventDefault(); closeJoin(); });
+
+  chips.addEventListener('click', function (ev) {
+    var b = ev.target.closest('.chip'); if (!b) return;
+    b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    corner = Array.prototype.map.call(chips.querySelectorAll('.chip[aria-pressed="true"]'), function (c) { return c.getAttribute('data-value'); });
+    document.getElementById('j-chips-msg').textContent = '';
+  });
+
+  form.addEventListener('input', function (ev) {
+    var input = ev.target;
+    if (input.tagName === 'INPUT' && wrap(input).classList.contains('is-invalid') && input.value.trim()) setNote(input);
+  });
+
+  back.addEventListener('click', function () { if (current === 2) show(1, true); else if (current === 3) show(2, true); });
 
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if (!validate()) return;
+    if (current === 1) { if (validate(1)) show(2); return; }
+    if (current === 2) { if (validate(2)) show(3); return; }
+    if (current !== 3 || !validate(3)) return;
     var data = {
+      email: field('email').value.trim(),
       name: field('name').value.trim(),
       company: field('company').value.trim(),
       role: field('role').value.trim(),
-      email: field('email').value.trim(),
+      corner: corner,
       referrer: field('referrer').value.trim(),
       submitted_at: new Date().toISOString()
     };
-    submit.disabled = true;
+    next.disabled = true;
     submitApplication(data).then(function () {
-      document.getElementById('ref').textContent = reference();
-      document.getElementById('receipt-copy').textContent =
-        'Thank you, ' + data.name.split(' ')[0] + '. A real person will write to ' + data.email + ' shortly. Welcome aboard.';
-      shell.classList.add('is-received');
-      shell.scrollIntoView({ block: 'center' });
+      next.disabled = false;
+      document.getElementById('j-ref').textContent = reference();
+      document.getElementById('j-done-copy').textContent =
+        'Thanks, ' + data.name.split(' ')[0] + '. We\'ll confirm you work in yachting, then send early access to ' + data.email + '. Until then, see you in Amsterdam.';
+      show('done');
     }).catch(function () {
-      submit.disabled = false;
-      setError(field('email'), 'Your request could not be sent. Check your connection and try again.');
+      next.disabled = false;
+      setError(field('referrer'), 'Your request could not be sent. Check your connection and try again.');
     });
   });
 })();
