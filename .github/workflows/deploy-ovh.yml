@@ -1,0 +1,32 @@
+name: Deploy to OVH
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ovh
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect site files
+        run: |
+          mkdir -p public
+          cp index.html public/
+
+      - name: Upload to OVH www/
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.cluster129.hosting.ovh.net
+          username: kandonl
+          password: ${{ secrets.OVH_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./public/
+          server-dir: ./www/
