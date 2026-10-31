@@ -5,3 +5,6 @@
 !.github/
 !.github/workflows/
 !.github/workflows/*.yml
+!.htaccess
+!app-vibe-check/
+!app-vibe-check/index.html

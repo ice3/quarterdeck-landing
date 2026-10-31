@@ -1,0 +1,7 @@
+# kando.network: www.kando.network redirects to kando.network (keeps http/https and path)
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.kando\.network$ [NC]
+RewriteCond %{SERVER_PORT} ^443$
+RewriteRule ^(.*)$ https://kando.network/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.kando\.network$ [NC]
+RewriteRule ^(.*)$ http://kando.network/$1 [R=301,L]

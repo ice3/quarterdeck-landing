@@ -18,7 +18,8 @@ jobs:
       - name: Collect site files
         run: |
           mkdir -p public
-          cp index.html public/
+          cp index.html .htaccess public/
+          cp -R app-vibe-check public/
 
       - name: Upload to OVH www/
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
