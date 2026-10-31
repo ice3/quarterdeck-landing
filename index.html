@@ -368,6 +368,8 @@ footer {
 }
 footer .wrap--wide { display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; }
 footer p { margin: 0; }
+footer a { color: inherit; text-decoration: underline; text-underline-offset: .2em; text-decoration-color: var(--field-line); }
+footer a:hover { text-decoration-color: currentColor; }
 
 /* ---- Scroll reveal ---- */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: var(--d, 0ms); }
@@ -494,7 +496,7 @@ html.no-io .reveal { opacity: 1; transform: none; }
 
 <footer>
   <div class="wrap--wide">
-    <p>Made for yachting. Created by humans for humans. See you in Amsterdam.</p>
+    <p>Made for yachting. Created by humans for humans. See you in Amsterdam. <a href="mailto:contact@kando.network">contact@kando.network</a></p>
     <p>Series I · Amsterdam, November 2026</p>
   </div>
 </footer>
@@ -510,7 +512,7 @@ html.no-io .reveal { opacity: 1; transform: none; }
     <section class="step is-active" data-step="1">
       <p class="step__n">Step 1 of 3</p>
       <h3 class="step__title" id="j-title">Your work email.</h3>
-      <p class="step__hint">A company address speeds up the check. Crew, the address you use on board is perfectly fine.</p>
+      <p class="step__hint">A company address speeds up the check.</p>
       <div class="step__fields">
         <div class="field">
           <label for="j-email">Work email</label>
