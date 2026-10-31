@@ -28,7 +28,7 @@ jobs:
           server: ftp.cluster129.hosting.ovh.net
           username: kandonl
           password: ${{ secrets.OVH_FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           port: 21
           local-dir: ./public/
           server-dir: ./www/
