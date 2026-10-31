@@ -41,28 +41,94 @@ input, textarea { font: inherit; color: inherit; }
 svg { display: block; }
 
 /* ---------- desk layout ---------- */
+.strip { height: 34px; display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--ink); color: rgba(251,250,247,.72); font-size: 12.5px; letter-spacing: .01em; }
+.strip b { color: var(--bg); letter-spacing: .14em; font-size: 11.5px; }
 .desk {
-  min-height: 100%;
+  min-height: calc(100% - 34px);
   display: grid;
-  grid-template-columns: minmax(0, 340px) auto;
+  grid-template-columns: auto minmax(0, 720px);
   justify-content: center;
-  align-items: center;
-  gap: 72px;
-  padding: 40px 24px;
+  align-items: start;
+  gap: 48px;
+  padding: 32px 24px 48px;
 }
-.notes { max-width: 340px; }
-.notes__brand { font-size: 13px; letter-spacing: .32em; font-weight: 600; margin: 0 0 28px; }
-.notes h1 { font-size: 30px; line-height: 1.1; letter-spacing: -.025em; margin: 0 0 14px; font-weight: 600; text-wrap: balance; }
-.notes p { color: var(--ink-2); font-size: 15px; line-height: 1.55; margin: 0 0 22px; }
-.notes ol { margin: 0 0 24px; padding: 0; list-style: none; counter-reset: t; }
-.notes li {
-  counter-increment: t; display: grid; grid-template-columns: 26px 1fr; gap: 8px;
-  padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.45; color: var(--ink-2);
+[hidden] { display: none !important; }
+.desk > .phone { position: sticky; top: 24px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* panel */
+.panel { min-width: 0; padding-top: 4px; }
+.panel__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+.panel__brand { font-size: 13px; letter-spacing: .32em; font-weight: 600; margin-right: 8px; }
+.sel select {
+  height: 38px; border-radius: 19px; border: 1px solid var(--line-2); background: var(--card); color: var(--ink);
+  padding: 0 34px 0 14px; font: 500 13.5px var(--sf); appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230b1a2b' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
 }
-.notes li::before { content: counter(t); font-variant-numeric: tabular-nums; color: var(--ink-3); font-size: 13px; padding-top: 1px; }
-.notes li strong { color: var(--ink); font-weight: 600; }
-.notes__reset { font-size: 13px; color: var(--ink-3); text-decoration: underline; text-underline-offset: .2em; }
-.notes__fine { font-size: 12.5px !important; color: var(--ink-3) !important; }
+.pbtn { height: 38px; padding: 0 16px; border-radius: 19px; border: 1px solid var(--line-2); background: var(--card); font-size: 13.5px; font-weight: 500; }
+.pbtn:hover, .sel select:hover { border-color: var(--ink); }
+.panel__close { display: none; }
+.ptabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.ptabs button { height: 42px; padding: 0 18px; border-radius: 21px; border: 1px solid var(--line-2); background: var(--card); font-size: 15px; font-weight: 600; }
+.ptabs button span { color: var(--ink-3); font-weight: 500; font-variant-numeric: tabular-nums; margin-left: 4px; }
+.ptabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.ptabs button[aria-selected="true"] span { color: rgba(251,250,247,.7); }
+
+.journey { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.jstep { display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start; text-align: left; padding: 13px 14px; border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); transition: box-shadow .2s, background .2s; }
+.jstep:hover { box-shadow: 0 0 0 1px var(--ink); }
+.jstep.on { background: var(--bg-soft); box-shadow: 0 0 0 1.5px var(--ink); }
+.jstep__n { width: 30px; height: 30px; border-radius: 50%; background: var(--bg-soft); display: grid; place-items: center; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.jstep.on .jstep__n { background: var(--ink); color: var(--bg); }
+.jstep__t { font-size: 15.5px; font-weight: 600; letter-spacing: -.01em; }
+.jstep__d { font-size: 13.5px; color: var(--ink-2); line-height: 1.4; margin-top: 2px; }
+.jstep__h { font-size: 12.5px; color: var(--ink-3); line-height: 1.4; margin-top: 6px; }
+.jstep__h b { color: var(--ink-2); font-weight: 600; }
+.jsec { grid-column: 1 / -1; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 10px 2px 2px; }
+.jsec:first-child { margin-top: 0; }
+
+.qcard { background: var(--card); border-radius: 18px; box-shadow: 0 0 0 1px var(--line); padding: 20px 22px 18px; }
+.qcard__top { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.qcard__top span:last-child { font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.qcard__q { font-size: 21px; line-height: 1.38; letter-spacing: -.015em; margin: 12px 0 16px; font-weight: 500; text-wrap: pretty; }
+.qcard__see { font-size: 13.5px; color: var(--ink-2); text-decoration: underline; text-underline-offset: .2em; margin: -6px 0 14px; display: inline-block; }
+.qopts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.qopts button { min-height: 36px; padding: 6px 14px; border-radius: 18px; background: var(--bg-soft); font-size: 14px; font-weight: 500; text-align: left; }
+.qopts button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.qcard textarea { width: 100%; min-height: 76px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--bg); padding: 10px 12px; font-size: 15px; line-height: 1.45; resize: vertical; outline: none; }
+.qcard textarea:focus { border-color: var(--ink); }
+.qnav { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.qnav .pbtn:disabled { opacity: .35; cursor: default; }
+.qbar { flex: 1; height: 4px; border-radius: 2px; background: var(--bg-soft); overflow: hidden; }
+.qbar i { display: block; height: 100%; background: var(--ink); transition: width .3s; }
+.qtools { display: flex; gap: 8px; margin: 12px 0 14px; flex-wrap: wrap; }
+.qall summary { cursor: pointer; font-size: 14px; font-weight: 600; }
+.qall ol { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 8px; }
+.qall li { font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.qall li button { text-align: left; color: inherit; }
+.qall li button:hover { color: var(--ink); text-decoration: underline; }
+.qall li.done { color: var(--ink-3); }
+.qall li.done::marker { color: var(--ok); }
+.qall .a { display: block; font-size: 12.5px; color: var(--ok); }
+
+.fab { display: none; }
+
+/* iOS notification banner */
+.banner {
+  position: absolute; z-index: 95; left: 8px; right: 8px; top: calc(var(--top) - 6px);
+  display: flex; gap: 10px; align-items: center; padding: 11px 12px; border-radius: 20px; text-align: left;
+  background: rgba(244,242,237,.92); backdrop-filter: saturate(1.8) blur(24px); -webkit-backdrop-filter: saturate(1.8) blur(24px);
+  box-shadow: 0 10px 30px -8px rgba(11,26,43,.28), 0 0 0 .5px rgba(11,26,43,.08);
+  transform: translateY(-160%); transition: transform .45s cubic-bezier(.2,.9,.25,1); cursor: pointer;
+}
+.banner.on { transform: none; }
+.banner__ic { flex: none; width: 38px; height: 38px; border-radius: 9px; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-size: 15px; font-weight: 700; letter-spacing: .02em; }
+.banner__b { flex: 1; min-width: 0; }
+.banner__h { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-3); }
+.banner__h b { color: var(--ink); font-weight: 600; letter-spacing: .12em; font-size: 11.5px; }
+.banner__t { font-size: 14.5px; font-weight: 600; margin-top: 1px; }
+.banner__s { font-size: 14px; color: var(--ink-2); line-height: 1.3; }
 
 /* ---------- phone ---------- */
 .phone {
@@ -87,19 +153,27 @@ svg { display: block; }
 /* real phone: no frame */
 @media (max-width: 520px) {
   body { background: var(--bg); }
-  .desk { display: block; padding: 0; }
-  .notes { display: none; }
+  .strip { display: none; }
+  .desk { display: block; padding: 0; min-height: 0; }
+  .desk > .phone { position: relative; top: 0; }
+  .panel { display: none; position: fixed; inset: 0; z-index: 200; overflow-y: auto; background: var(--bg); padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px 40px; }
+  .panel.open { display: block; }
+  .panel__close { display: inline-flex; align-items: center; background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .journey { grid-template-columns: 1fr; }
+  .fab { display: block; position: fixed; z-index: 150; right: 12px; bottom: calc(env(safe-area-inset-bottom, 0px) + 150px); height: 34px; padding: 0 14px; border-radius: 17px; opacity: .92; background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 600; box-shadow: 0 6px 18px rgba(11,26,43,.25); }
+  .toast { bottom: auto; top: calc(var(--top) + 8px); transform: translate(-50%, -20px); }
   .phone { width: 100%; height: 100dvh; border-radius: 0; padding: 0; background: var(--bg); box-shadow: none; }
   .device { border-radius: 0; }
   .island, .status, .homebar { display: none; }
   .device { --top: env(safe-area-inset-top, 20px); --bottom: env(safe-area-inset-bottom, 0px); }
 }
 @media (max-height: 900px) and (min-width: 521px) {
-  .phone { transform: scale(.88); transform-origin: center; margin: -50px 0; }
+  .phone { transform: scale(.88); transform-origin: top center; margin-bottom: -100px; }
 }
-@media (min-width: 521px) and (max-width: 860px) {
+@media (min-width: 521px) and (max-width: 1100px) {
   .desk { grid-template-columns: 1fr; justify-items: center; gap: 32px; }
-  .notes { order: 2; }
+  .desk > .phone { position: relative; top: 0; }
+  .panel { width: 100%; max-width: 720px; }
 }
 
 /* ---------- app frame ---------- */
@@ -408,22 +482,8 @@ svg { display: block; }
   </defs>
 </svg>
 
+<div class="strip"><b>PROTOTYPE</b><span>fictional people, companies and vessels · interface text is temporary</span></div>
 <div class="desk">
-  <aside class="notes">
-    <p class="notes__brand">KANDO</p>
-    <h1>App preview for iPhone.</h1>
-    <p>A clickable sketch of the first version, to agree on the screens before writing native code. Everything you see is tappable.</p>
-    <ol>
-      <li><span><strong>Getting in.</strong> Request access with a work email, or use an invitation from a member.</span></li>
-      <li><span><strong>Home.</strong> Posts from people in yachting, plus the show card when a yacht show is on.</span></li>
-      <li><span><strong>Rooms.</strong> Groups by invitation or by request, for a profession or a club.</span></li>
-      <li><span><strong>Roundtables.</strong> One topic, a few days, everyone gives a view. Not a video call.</span></li>
-      <li><span><strong>Messages and profile.</strong> Each connection remembers where you met.</span></li>
-    </ol>
-    <p class="notes__fine">People, companies, vessels and rooms are fictional. Interface text is temporary; the final words come later.</p>
-    <button class="notes__reset" type="button" id="reset">Start again from the welcome screen</button>
-  </aside>
-
   <div class="phone">
     <div class="device" id="device">
       <div class="island"></div>
@@ -449,10 +509,53 @@ svg { display: block; }
       <div class="scrim" id="scrim"></div>
       <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t"></div>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="banner" id="banner" role="status" aria-live="polite"></div>
       <div class="homebar"></div>
     </div>
   </div>
+
+  <section class="panel" id="panel" aria-label="Journey and questions">
+    <div class="panel__top">
+      <span class="panel__brand">KANDO</span>
+      <label class="sel"><span class="sr">View as</span>
+        <select id="persona">
+          <option value="visitor">Visitor, no account</option>
+          <option value="review">Waiting for the check</option>
+          <option value="member">Verified member</option>
+        </select>
+      </label>
+      <label class="sel"><span class="sr">Simulate a notification</span>
+        <select id="notif">
+          <option value="">Simulate a notification…</option>
+          <option value="coffee">Tom accepted your coffee</option>
+          <option value="room">Room request accepted</option>
+          <option value="table">Roundtable closes tomorrow</option>
+          <option value="reply">Reply to your comment</option>
+        </select>
+      </label>
+      <button class="pbtn" type="button" id="reset">Reset</button>
+      <button class="pbtn panel__close" type="button" id="panel-close">Back to the app</button>
+    </div>
+
+    <div class="ptabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-ptab="journey">The journey</button>
+      <button type="button" role="tab" aria-selected="false" data-ptab="questions">Questions <span id="q-count">0/0</span></button>
+    </div>
+
+    <div id="p-journey" class="journey"></div>
+
+    <div id="p-questions" hidden>
+      <div class="qcard" id="qcard"></div>
+      <div class="qtools">
+        <button class="pbtn" type="button" id="q-export">Download my answers</button>
+        <button class="pbtn" type="button" id="q-copy">Copy</button>
+        <button class="pbtn" type="button" id="q-clear">Clear</button>
+      </div>
+      <details class="qall"><summary>All questions</summary><ol id="q-all"></ol></details>
+    </div>
+  </section>
 </div>
+<button class="fab" type="button" id="panel-open">Journey &amp; questions</button>
 
 <script>
 (function () {
@@ -573,6 +676,7 @@ svg { display: block; }
     el.innerHTML = VIEWS[view.name](view.data || {});
     el._view = view;
     if (view.noTabs) el.classList.add('no-tabs');
+    highlightFor(view);
     stage.appendChild(el);
     if (BIND[view.name]) BIND[view.name](el, view.data || {});
     el.addEventListener('scroll', function () { var b = $('.bar', el); if (b) b.classList.toggle('has-line', el.scrollTop > 4); }, { passive: true });
@@ -623,6 +727,10 @@ svg { display: block; }
       else { var el = stage.lastElementChild; if (el) el.scrollTo({ top: 0, behavior: 'smooth' }); }
       return;
     }
+    markTabs(tab);
+    renderTab(true);
+  }
+  function markTabs(tab) {
     state.tab = tab;
     var map = { home: 'i-home', rooms: 'i-rooms', tables: 'i-table', msgs: 'i-msg', me: 'i-me' };
     Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function (b) {
@@ -630,7 +738,6 @@ svg { display: block; }
       b.setAttribute('aria-selected', on);
       $('use', b).setAttribute('href', '#' + map[b.dataset.tab] + (on ? '-f' : ''));
     });
-    renderTab(true);
   }
   tabsEl.addEventListener('click', function (e) { var b = e.target.closest('.tab'); if (b) setTab(b.dataset.tab); });
 
@@ -769,12 +876,14 @@ svg { display: block; }
     $('#f-go', el).onclick = function () { var i = $('#f-code', el); if (i.value.trim().length < 6) { i.parentNode.classList.add('err'); return; } enterApp(); };
   };
 
-  function enterApp() {
+  function enterApp(silent) {
     state.onboarded = true;
+    if (persona) persona.value = 'member';
     state.tab = 'home';
     state.stacks = { home: [{ name: 'home' }], rooms: [{ name: 'rooms' }], tables: [{ name: 'tables' }], msgs: [{ name: 'msgs' }], me: [{ name: 'me' }] };
+    markTabs('home');
     renderTab(true);
-    toast('Welcome to KANDO');
+    if (silent !== true) toast('Welcome to KANDO');
   }
 
   /* home */
@@ -1003,21 +1112,211 @@ svg { display: block; }
       }).join('') + '</div><div class="empty-pad"></div>';
   };
 
+  /* ---------------- journey (right panel) ---------------- */
+  var ROOT = { home: 'home', rooms: 'rooms', tables: 'tables', msgs: 'msgs', me: 'me' };
+  function openAs(tab, name, id, noTabs) {
+    if (!state.onboarded) enterApp(true);
+    persona.value = 'member';
+    closeSheet();
+    state.stacks[tab] = [{ name: ROOT[tab] }];
+    markTabs(tab);
+    renderTab(false);
+    if (name) push(name, { id: id }, { noTabs: !!noTabs });
+  }
+  function asVisitor(then) {
+    boot();
+    if (then) then.forEach(function (v) { push(v, {}, { noTabs: true }); });
+  }
+
+  var STEPS = [
+    { sec: 'Getting in' },
+    { k: 'welcome', t: 'Welcome, no account', d: 'What someone sees before joining.', h: 'Nothing is visible before the check: no public feed.', go: function () { asVisitor(); } },
+    { k: 'request', t: 'Request access', d: 'Work email, company website, role.', h: 'The same check as a professional badge at a yacht show.', go: function () { asVisitor(['request']); } },
+    { k: 'review', t: 'Under review', d: 'Usually under 24 hours. A person checks.', h: 'A human checks every request at launch.', go: function () { asVisitor(['request', 'review']); } },
+    { k: 'code', t: 'Invitation from a member', d: 'A code from someone who vouches for you.', h: 'Five invitations each. The inviter stays on your profile.', go: function () { asVisitor(['code']); } },
+    { sec: 'Inside the app' },
+    { k: 'home', t: 'Home', d: 'Posts from connections and rooms, newest first.', h: 'No algorithm and no ads in the first version.', go: function () { openAs('home'); } },
+    { k: 'show', t: 'Show mode', d: 'Who from your network is at METSTRADE, and a coffee in one tap.', h: 'Show plans stay private unless the member shares them.', go: function () { openAs('home', 'show'); } },
+    { k: 'post', t: 'Post and comments', d: 'Every name carries a role and a company.', h: 'One kind of post: text, with optional pictures.', go: function () { openAs('home', 'post', 'p1'); } },
+    { k: 'rooms', t: 'Rooms', d: 'My rooms, discover, pending requests.', h: 'Three kinds: by invitation, on request, open.', go: function () { openAs('rooms'); } },
+    { k: 'room', t: 'Joining a room', d: 'A room on request: its admins answer.', h: 'Clubs can run their own private room.', go: function () { openAs('rooms', 'room', 'r2'); } },
+    { k: 'table', t: 'Roundtable', d: 'One question, five days, a position and a reason.', h: 'Not live and no video. Everything stays written.', go: function () { openAs('tables', 'table', 't1'); } },
+    { k: 'closed', t: 'Closed roundtable', d: 'What the table concluded, in three lines.', h: 'Summaries are written by people, never generated.', go: function () { openAs('tables', 'table', 't3'); } },
+    { k: 'thread', t: 'Messages', d: 'Each conversation recalls where you met.', h: 'Any verified member can message any other.', go: function () { openAs('msgs', 'thread', 'm1', true); } },
+    { k: 'me', t: 'Profile and invitations', d: 'Shows attended, connections, invitations left.', h: 'People only at launch, no company pages.', go: function () { openAs('me'); } }
+  ];
+  var journeyEl = document.getElementById('p-journey');
+  var n = 0;
+  journeyEl.innerHTML = STEPS.map(function (st) {
+    if (st.sec) return '<p class="jsec">' + esc(st.sec) + '</p>';
+    n++; st.n = n;
+    return '<button class="jstep" type="button" data-step-k="' + st.k + '"><span class="jstep__n">' + n + '</span><span><span class="jstep__t" style="display:block">' + esc(st.t) + '</span><span class="jstep__d" style="display:block">' + esc(st.d) + '</span><span class="jstep__h" style="display:block"><b>Hypothesis ' + n + '.</b> ' + esc(st.h) + '</span></span></button>';
+  }).join('');
+  function stepByK(k) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].k === k) return STEPS[i]; }
+  journeyEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.jstep'); if (!b) return;
+    stepByK(b.dataset.stepK).go();
+    closePanel();
+  });
+  function highlightFor(view) {
+    var k = { welcome: 'welcome', request: 'request', review: 'review', code: 'code', home: 'home', show: 'show', post: 'post', rooms: 'rooms', room: 'room', msgs: 'thread', thread: 'thread', me: 'me' }[view.name];
+    if (view.name === 'table') k = (view.data && view.data.id === 't3') ? 'closed' : 'table';
+    if (!k) return;
+    Array.prototype.forEach.call(journeyEl.querySelectorAll('.jstep'), function (b) { b.classList.toggle('on', b.dataset.stepK === k); });
+  }
+
+  /* panel tabs */
+  var ptabs = document.querySelectorAll('[data-ptab]');
+  Array.prototype.forEach.call(ptabs, function (b) {
+    b.onclick = function () {
+      Array.prototype.forEach.call(ptabs, function (x) { x.setAttribute('aria-selected', x === b); });
+      document.getElementById('p-journey').hidden = b.dataset.ptab !== 'journey';
+      document.getElementById('p-questions').hidden = b.dataset.ptab !== 'questions';
+    };
+  });
+
+  /* mobile panel */
+  var panel = document.getElementById('panel');
+  function closePanel() { panel.classList.remove('open'); }
+  document.getElementById('panel-open').onclick = function () { panel.classList.add('open'); panel.scrollTop = 0; };
+  document.getElementById('panel-close').onclick = closePanel;
+
+  /* persona */
+  var persona = document.getElementById('persona');
+  persona.onchange = function () {
+    if (persona.value === 'visitor') asVisitor();
+    else if (persona.value === 'review') { asVisitor(['request', 'review']); persona.value = 'review'; }
+    else openAs('home');
+    closePanel();
+  };
+
+  /* notifications */
+  var bannerEl = document.getElementById('banner'), bannerT;
+  var NOTIFS = {
+    coffee: { t: 'Tom Hallett', s: 'Tuesday works. 10:30 at the Superyacht Pavilion?', go: function () {
+      var th = find(THREADS, 'm1');
+      if (th.msgs[th.msgs.length - 1][1].indexOf('10:30') < 0) th.msgs.push(['in', 'Tuesday works. 10:30 at the Superyacht Pavilion?']);
+      openAs('msgs', 'thread', 'm1', true); } },
+    room: { t: 'Refit Managers, Med', s: 'Your request to join was accepted.', go: function () {
+      var r = find(ROOMS, 'r2'); r.joined = true; r.requested = false; openAs('rooms', 'room', 'r2'); } },
+    table: { t: 'Roundtable', s: 'Nuclear propulsion on superyachts closes tomorrow. 47 views so far.', go: function () { openAs('tables', 'table', 't1'); } },
+    reply: { t: 'Sofia Marchetti', s: 'Replied to your comment: Genoa? Send me the name of the yard.', go: function () {
+      var p = find(POSTS, 'p1');
+      if (!p.comments.some(function (c) { return c.mark; })) p.comments.push({ a: 'sofia', t: 'Genoa? Send me the name of the yard, please.', ago: 'Now', mark: true });
+      openAs('home', 'post', 'p1'); } }
+  };
+  var pendingNotif = null;
+  document.getElementById('notif').onchange = function (e) {
+    var k = e.target.value; e.target.value = ''; if (!k) return;
+    var nf = NOTIFS[k]; pendingNotif = nf;
+    bannerEl.innerHTML = '<span class="banner__ic">K</span><span class="banner__b"><span class="banner__h"><b>KANDO</b><span>now</span></span><span class="banner__t" style="display:block">' + esc(nf.t) + '</span><span class="banner__s" style="display:block">' + esc(nf.s) + '</span></span>';
+    bannerEl.classList.add('on');
+    clearTimeout(bannerT); bannerT = setTimeout(function () { bannerEl.classList.remove('on'); }, 6000);
+    closePanel();
+  };
+  bannerEl.onclick = function () { bannerEl.classList.remove('on'); if (pendingNotif) pendingNotif.go(); pendingNotif = null; };
+
+  /* ---------------- questions for Alice ---------------- */
+  var YN = ['Yes, that\'s it', 'No, rather…', 'Not thought about it yet'];
+  var QS = [
+    { sec: 'Getting in', step: 'request', q: 'Anyone can request access with a work email and a company website, and a person checks within 24 hours. Is that the check you want at launch?' },
+    { sec: 'Getting in', step: 'request', q: 'Someone with only a personal address (Gmail, iCloud) can still request access, it just takes longer to check. Do we accept them?' },
+    { sec: 'Getting in', step: 'code', q: 'Each member gets 5 invitations and stays visible as the person who introduced the newcomer. Is 5 right, and should invited people still go through the check?', opts: ['5 is right, still checked', '5 is right, no check', 'Another number…'] },
+    { sec: 'Getting in', step: 'welcome', q: 'Crew join like everyone else, but nothing in the app is written for them specifically. Is that the right balance?' },
+    { sec: 'Home', step: 'home', q: 'The home feed shows posts from your connections and your rooms, newest first, with no algorithm. Right for the first version?' },
+    { sec: 'Home', step: 'show', q: 'Show mode appears a few days before a big show and lists the connections who said they are going. Which shows should count?', opts: ['Monaco, Cannes, FLIBS, METSTRADE', 'Add Palma, Genoa, Dubai…', 'Let members add any event'] },
+    { sec: 'Home', step: 'show', q: 'Show plans are hidden by default: a member chooses to share them with connections. Agreed?' },
+    { sec: 'Rooms', step: 'rooms', q: 'Three kinds of room: by invitation, on request, open to all members. Is that enough?' },
+    { sec: 'Rooms', step: 'room', q: 'Who can create a room?', opts: ['Any verified member', 'Only us at the start', 'Clubs and companies, on request'] },
+    { sec: 'Rooms', step: 'room', q: 'A club like YPY or Yacht Femme running its own room: free, or a paid branded room?', opts: ['Free', 'Paid', 'Free at launch, paid later'] },
+    { sec: 'Roundtables', step: 'table', q: 'A roundtable is one question, open five days, and every view is tied to a position. Is five days right?', opts: ['Five days is right', 'Shorter', 'Longer', 'The host decides'] },
+    { sec: 'Roundtables', step: 'closed', q: 'Who writes the summary when a roundtable closes?', opts: ['The room host', 'Us, the KANDO team', 'No summary'] },
+    { sec: 'Roundtables', step: 'table', q: 'Who can propose a roundtable?', opts: ['Any member', 'Room admins only', 'Us only at the start'] },
+    { sec: 'Messages and profile', step: 'thread', q: 'Who can send a message to whom?', opts: ['Any verified member to any other', 'Connections only', 'Connections, plus a short intro request'] },
+    { sec: 'Messages and profile', step: 'me', q: 'A profile shows company or vessel, role, base and shows attended. What is missing?', opts: ['Nothing for now', 'Something is missing…'] },
+    { sec: 'Messages and profile', step: 'me', q: 'Company pages like on LinkedIn: at launch, or people only for now?', opts: ['People only for now', 'Company pages at launch'] },
+    { sec: 'Launch', q: 'What would make you say the waitlist worked and we build the app?', opts: ['A number of sign-ups…', 'A number of companies…', 'A date…'] },
+    { sec: 'Launch', q: 'How do members pay?', opts: ['Free until a date', 'Free for people, paid for companies', 'Paid from day one', 'Let\'s talk'] }
+  ];
+  var KEY = 'kando-vibe-answers-v1';
+  var A;
+  try { A = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { A = null; }
+  if (!A || !A.a) A = { i: 0, a: {} };
+  function saveA() { try { localStorage.setItem(KEY, JSON.stringify(A)); } catch (e) {} }
+  function answered(i) { var x = A.a[i]; return !!(x && (x.o || (x.n && x.n.trim()))); }
+  function nDone() { var c = 0; for (var i = 0; i < QS.length; i++) if (answered(i)) c++; return c; }
+  var qcard = document.getElementById('qcard');
+  function renderQ() {
+    var i = A.i, q = QS[i], x = A.a[i] || {};
+    var opts = q.opts || YN;
+    qcard.innerHTML = '<div class="qcard__top"><span>' + esc(q.sec) + '</span><span>' + (i + 1) + ' / ' + QS.length + '</span></div>' +
+      '<p class="qcard__q">' + esc(q.q) + '</p>' +
+      (q.step ? '<button class="qcard__see" type="button" data-see="' + q.step + '">See it in the app</button>' : '') +
+      '<div class="qopts">' + opts.map(function (o) { return '<button type="button" aria-pressed="' + (x.o === o) + '" data-o="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>' +
+      '<textarea id="q-note" placeholder="A word, if needed">' + esc(x.n || '') + '</textarea>' +
+      '<div class="qnav"><button class="pbtn" type="button" id="q-prev"' + (i === 0 ? ' disabled' : '') + '>‹ Previous</button><span class="qbar"><i style="width:' + Math.round(nDone() / QS.length * 100) + '%"></i></span><button class="pbtn" type="button" id="q-next">' + (i === QS.length - 1 ? 'Done' : 'Next ›') + '</button></div>';
+    document.getElementById('q-count').textContent = nDone() + '/' + QS.length;
+    renderAll();
+  }
+  function renderAll() {
+    document.getElementById('q-all').innerHTML = QS.map(function (q, i) {
+      var x = A.a[i];
+      return '<li class="' + (answered(i) ? 'done' : '') + '"><button type="button" data-qi="' + i + '">' + esc(q.q) + '</button>' + (answered(i) ? '<span class="a">' + esc([x.o, x.n].filter(Boolean).join(' · ')) + '</span>' : '') + '</li>';
+    }).join('');
+  }
+  qcard.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-o]');
+    if (o) { var x = A.a[A.i] || (A.a[A.i] = {}); x.o = x.o === o.dataset.o ? '' : o.dataset.o; saveA(); renderQ(); return; }
+    if (e.target.closest('#q-prev')) { A.i = Math.max(0, A.i - 1); saveA(); renderQ(); return; }
+    if (e.target.closest('#q-next')) { if (A.i < QS.length - 1) { A.i++; saveA(); renderQ(); } else toast('Thank you. Download or copy your answers below.'); return; }
+    var see = e.target.closest('[data-see]');
+    if (see) { stepByK(see.dataset.see).go(); closePanel(); }
+  });
+  qcard.addEventListener('input', function (e) {
+    if (e.target.id !== 'q-note') return;
+    var x = A.a[A.i] || (A.a[A.i] = {}); x.n = e.target.value; saveA();
+    document.getElementById('q-count').textContent = nDone() + '/' + QS.length; renderAll();
+  });
+  document.getElementById('q-all').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-qi]'); if (!b) return; A.i = +b.dataset.qi; saveA(); renderQ(); qcard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  function exportMd() {
+    var d = new Date(), out = '# KANDO app preview: answers\n\n' + d.toISOString().slice(0, 10) + '\n', sec = '';
+    QS.forEach(function (q, i) {
+      if (q.sec !== sec) { sec = q.sec; out += '\n## ' + sec + '\n'; }
+      var x = A.a[i] || {};
+      out += '\n**' + (i + 1) + '. ' + q.q + '**\n\n' + (x.o ? 'Answer: ' + x.o + '\n' : 'Answer: (none)\n') + (x.n && x.n.trim() ? 'Note: ' + x.n.trim() + '\n' : '');
+    });
+    return out;
+  }
+  document.getElementById('q-export').onclick = function () {
+    var blob = new Blob([exportMd()], { type: 'text/markdown' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'kando-answers-' + new Date().toISOString().slice(0, 10) + '.md';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  };
+  document.getElementById('q-copy').onclick = function () {
+    var t = exportMd();
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { toast('Answers copied'); }, function () { toast('Copy blocked by the browser'); });
+  };
+  var clearArmed = false, clearBtn = document.getElementById('q-clear');
+  clearBtn.onclick = function () {
+    if (!clearArmed) { clearArmed = true; clearBtn.textContent = 'Click again to clear'; setTimeout(function () { clearArmed = false; clearBtn.textContent = 'Clear'; }, 3000); return; }
+    clearArmed = false; clearBtn.textContent = 'Clear'; A = { i: 0, a: {} }; saveA(); renderQ();
+  };
+  renderQ();
+
   /* ---------------- boot ---------------- */
   function boot() {
     state.onboarded = false;
-    state.tab = 'home';
     state.stacks = { home: [{ name: 'welcome', noTabs: true }], rooms: [], tables: [], msgs: [], me: [] };
-    Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function (b) {
-      var on = b.dataset.tab === 'home';
-      b.setAttribute('aria-selected', on);
-      var map = { home: 'i-home', rooms: 'i-rooms', tables: 'i-table', msgs: 'i-msg', me: 'i-me' };
-      $('use', b).setAttribute('href', '#' + map[b.dataset.tab] + (on ? '-f' : ''));
-    });
+    markTabs('home');
     closeSheet();
+    persona.value = 'visitor';
     renderTab(true);
   }
-  document.getElementById('reset').onclick = boot;
+  document.getElementById('reset').onclick = function () { location.reload(); };
   boot();
 })();
 </script>
