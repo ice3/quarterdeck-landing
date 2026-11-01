@@ -8,3 +8,5 @@
 !.htaccess
 !app-vibe-check/
 !app-vibe-check/index.html
+!app-vibe-check/img/
+!app-vibe-check/img/*.jpg
