@@ -499,6 +499,17 @@ svg { display: block; }
 .sheet .stance-pick button { height: 36px; padding: 0 14px; font-size: 14.5px; border-radius: 18px; }
 .sheet .field { margin-bottom: 18px; }
 .sheet .seg { margin: 0 0 18px; grid-template-columns: repeat(2, 1fr); }
+.year { margin: 6px 16px 0; padding: 14px 12px 12px; border-radius: 16px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+.year__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+.year__m { display: grid; justify-items: center; gap: 6px; font-size: 11px; color: var(--ink-3); font-weight: 500; }
+.year__m i { width: 10px; height: 10px; border-radius: 50%; }
+.year__m i.has { box-shadow: 0 0 0 1.5px var(--ink-3) inset; }
+.year__m i.go { background: var(--ink); box-shadow: none; }
+.year__m::after { content: attr(data-y); height: 11px; font-size: 9.5px; color: var(--ink-3); margin-top: -3px; }
+.year p { margin: 12px 2px 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+.ag-time { flex: none; width: 52px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ag-time small { display: block; font-size: 11.5px; font-weight: 400; color: var(--ink-3); }
+.row .faces .av { box-shadow: 0 0 0 2px var(--card); }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; font-size: 15px; }
 .switch-row small { display: block; font-size: 13px; color: var(--ink-3); margin-top: 2px; }
 .switch { flex: none; width: 51px; height: 31px; border-radius: 16px; background: rgba(11,26,43,.16); position: relative; transition: background .2s; }
@@ -536,6 +547,7 @@ svg { display: block; }
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-cup" viewBox="0 0 24 24"><path d="M4.5 9h12v5.5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM16.5 10.5h1.2a2.5 2.5 0 0 1 0 5h-1.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.5 3.5v2.5M12.5 3.5v2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-useful" viewBox="0 0 24 24"><path class="fillable" d="M7.5 10.5 11 4c1.5 0 2.4 1.2 2.1 2.7l-.6 3h5.2a2 2 0 0 1 2 2.4l-1.3 6.2a2 2 0 0 1-2 1.7H7.5zM7.5 10.5h-3v9.5h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
   </defs>
@@ -719,12 +731,19 @@ svg { display: block; }
   [['r1', 'room-design.jpg'], ['r2', 'room-refit.jpg'], ['r3', 'room-helm.jpg'], ['r4', 'room-charter.jpg'], ['r5', 'room-hybrid.jpg']].forEach(function (x) { find(ROOMS, x[0]).img = x[1]; });
   var CREDITS = [{"l": "Amsterdam RAI", "a": "Adam Kliczek", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:Amsterdam_RAI_EC.jpg"}, {"l": "Wrapped yacht", "a": "Jean-Pierre Bazard Jpbazard", "lic": "CC BY-SA 3.0", "u": "https://commons.wikimedia.org/wiki/File:Bateaux_envelopp%C3%A9s_dans_du_film_thermor%C3%A9tractable_(57).JPG"}, {"l": "Gearbox at METS 2011", "a": "S.J. de Waard", "lic": "CC BY-SA 3.0", "u": "https://commons.wikimedia.org/wiki/File:Amsterdam_RAI_METS_2011_(006).JPG"}, {"l": "Sailing yacht saloon", "a": "Martino Motti Superyacht Photography", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:SSMot_0_143_copia.jpg"}, {"l": "Admiralty Bay, Bequia", "a": "David Stanley from Nanaimo, Canada", "lic": "CC BY 2.0", "u": "https://commons.wikimedia.org/wiki/File:Admiralty_Bay_on_Bequia,_Saint_Vincent_and_the_Grenadines_(49797161858).jpg"}, {"l": "Yacht interior", "a": "Martino Motti Superyacht Photography", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:SSMot_0_140_copia.jpg"}, {"l": "Travel lift", "a": "Ken Heaton", "lic": "CC BY-SA 3.0", "u": "https://commons.wikimedia.org/wiki/File:20110601_Dobson_Travel_Lift.JPG"}, {"l": "Monaco Yacht Show 2022", "a": "102Legobrick", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:MYS_2022_2.jpg"}, {"l": "Rodney Bay, St Lucia", "a": "Paul Harrison", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:Rodney_Bay_Anchorage,_St._lucia_0205.jpg"}, {"l": "Engine room", "a": "VERA IV", "lic": "CC BY-SA 3.0", "u": "https://commons.wikimedia.org/wiki/File:Engine_room_VERA_IV_yacht_..JPG"}, {"l": "Port Vauban, Antibes", "a": "Arnaud 25", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:Port_Vauban_007.jpg"}, {"l": "Wheelhouse", "a": "ClaR85", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:Taransay_Wheelhouse.jpg"}, {"l": "Monaco Yacht Show 2022", "a": "102Legobrick", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:MYS_2022_1.jpg"}, {"l": "Yacht saloon", "a": "Martino Motti Superyacht Photography", "lic": "CC BY-SA 4.0", "u": "https://commons.wikimedia.org/wiki/File:SSMot_0_164_copia.jpg"}];
 
+  var MONTHS = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+  var MONTHS_LONG = ['November 2026', 'December 2026', 'January 2027', 'February 2027', 'March 2027', 'April 2027', 'May 2027', 'June 2027', 'July 2027', 'August 2027', 'September 2027', 'October 2027'];
   var SHOWS = [
-    { id: 'mets', name: 'METSTRADE', city: 'Amsterdam', dates: '17 to 19 Nov', d: '17', m: 'NOV', n: 6, days: ['Tue 17', 'Wed 18', 'Thu 19'] },
-    { id: 'boot', name: 'boot Düsseldorf', city: 'Düsseldorf', dates: 'January 2027', d: 'Jan', m: '2027', n: 2, days: ['Weekdays', 'Weekend'] },
-    { id: 'palma', name: 'Palma International Boat Show', city: 'Palma', dates: 'April 2027', d: 'Apr', m: '2027', n: 4, days: ['Day 1', 'Day 2', 'Day 3', 'Day 4'] },
-    { id: 'mys', name: 'Monaco Yacht Show', city: 'Monaco', dates: 'September 2027', d: 'Sep', m: '2027', n: 7, days: ['Wed', 'Thu', 'Fri', 'Sat'] }
+    { id: 'mets', name: 'METSTRADE', city: 'Amsterdam', dates: '17 to 19 Nov', d: '17', m: 'NOV', mo: 0, who: SHOW.going, days: ['Tue 17', 'Wed 18', 'Thu 19'] },
+    { id: 'antigua', name: 'Antigua Charter Yacht Show', city: 'Antigua', dates: 'December 2026', d: 'Dec', m: '2026', mo: 1, who: ['hannah', 'tom'], days: ['Day 1', 'Day 2', 'Day 3', 'Day 4'] },
+    { id: 'boot', name: 'boot Düsseldorf', city: 'Düsseldorf', dates: 'January 2027', d: 'Jan', m: '2027', mo: 2, who: ['pieter', 'lena'], days: ['Weekdays', 'Weekend'] },
+    { id: 'palma', name: 'Palma International Boat Show', city: 'Palma', dates: 'April 2027', d: 'Apr', m: '2027', mo: 5, who: ['hannah', 'sofia', 'rafael', 'tom'], days: ['Day 1', 'Day 2', 'Day 3', 'Day 4'] },
+    { id: 'cannes', name: 'Cannes Yachting Festival', city: 'Cannes', dates: 'September 2027', d: 'Sep', m: '2027', mo: 10, who: ['pieter', 'ines', 'hannah'], days: ['Day 1', 'Day 2', 'Day 3', 'Day 4'] },
+    { id: 'mys', name: 'Monaco Yacht Show', city: 'Monaco', dates: 'September 2027', d: 'Sep', m: '2027', mo: 10, who: ['tom', 'ines', 'sofia', 'marco', 'pieter', 'rafael', 'hannah'], days: ['Wed', 'Thu', 'Fri', 'Sat'] },
+    { id: 'genoa', name: 'Genoa International Boat Show', city: 'Genoa', dates: 'September 2027', d: 'Sep', m: '2027', mo: 10, who: ['marco', 'sofia'], days: ['Day 1', 'Day 2', 'Day 3'] },
+    { id: 'flibs', name: 'FLIBS', city: 'Fort Lauderdale', dates: 'October 2027', d: 'Oct', m: '2027', mo: 11, who: ['rafael', 'tom'], days: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'] }
   ];
+  SHOWS.forEach(function (sh) { sh.n = sh.who.length; });
 
   /* coffee requests received at METSTRADE */
   var REQUESTS = [
@@ -737,7 +756,7 @@ svg { display: block; }
   ];
   function pendingReqs() { return REQUESTS.filter(function (r) { return r.arrived && r.status === 'pending'; }); }
 
-  var state = { tab: 'home', stacks: { home: [], rooms: [], tables: [], msgs: [], me: [] }, roomsFilter: 'mine', coffee: {}, plans: {}, conn: {}, invitesLeft: 3, onboarded: false };
+  var state = { tab: 'home', stacks: { home: [], rooms: [], tables: [], msgs: [], me: [] }, roomsFilter: 'mine', coffee: {}, plans: {}, conn: {}, planTab: 'shows', invitesLeft: 3, onboarded: false };
 
   /* ---------------- helpers ---------------- */
   var stage = document.getElementById('stage');
@@ -837,7 +856,7 @@ svg { display: block; }
 
   /* delegated actions */
   stage.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-back],[data-go],[data-like],[data-useful],[data-coffee],[data-going],[data-join],[data-sheet],[data-filter]');
+    var t = e.target.closest('[data-back],[data-go],[data-like],[data-useful],[data-coffee],[data-going],[data-join],[data-sheet],[data-filter],[data-plantab]');
     if (!t) return;
     if (t.hasAttribute('data-back')) { pop(); return; }
     if (t.dataset.go) { var g = t.dataset.go.split(':'); push(g[0], { id: g[1] }, { noTabs: g[0] === 'thread' }); return; }
@@ -857,6 +876,7 @@ svg { display: block; }
       refresh(); return;
     }
     if (t.dataset.filter) { state.roomsFilter = t.dataset.filter; refresh(); return; }
+    if (t.dataset.plantab) { state.planTab = t.dataset.plantab; refresh(); highlightFor({ name: 'shows' }); return; }
     if (t.dataset.sheet) { openSheet(t.dataset.sheet, t.dataset); }
   });
 
@@ -918,7 +938,10 @@ svg { display: block; }
       pressIn(b.parentNode, b, true);
       ok.disabled = !sheet.querySelectorAll('#cf-slots [aria-pressed="true"]').length;
     };
-    ok.onclick = function () { state.coffee[k] = true; closeSheet(); refresh(); toast('Coffee suggested to ' + first); };
+    ok.onclick = function () {
+      state.coffee[k] = Array.prototype.map.call(sheet.querySelectorAll('#cf-slots [aria-pressed="true"]'), function (b) { return b.dataset.v; });
+      closeSheet(); refresh(); toast('Coffee suggested to ' + first);
+    };
   }
   function connectSheet(k) {
     var p = P[k], first = p.n.split(' ')[0], m = p.mutual ? P[p.mutual[0]] : null;
@@ -1081,7 +1104,7 @@ svg { display: block; }
   }
   VIEWS.home = function () {
     var faces = SHOW.going.slice(0, 4).map(function (k) { return av(k); }).join(''), pend = pendingReqs().length;
-    return '<div class="large"><span class="wordmark">KANDO</span><button class="round-btn" type="button" data-sheet="post" aria-label="New post">' + ic('i-compose') + '</button></div>' +
+    return '<div class="large"><span class="wordmark">KANDO</span><span style="display:flex;gap:8px"><button class="round-btn" type="button" data-go="shows" aria-label="Shows calendar and meetings">' + ic('i-cal') + '</button><button class="round-btn" type="button" data-sheet="post" aria-label="New post">' + ic('i-compose') + '</button></span></div>' +
       '<button class="show-card" type="button" data-go="show">' +
         '<span class="show-card__img" style="background-image:url(img/show-rai.jpg)"></span>' +
         '<span class="show-card__top"><span class="live">Show mode</span><span>' + SHOW.dates + '</span></span>' +
@@ -1137,6 +1160,7 @@ svg { display: block; }
         var sl = r.slots[r.pick];
         return '<button class="row" type="button" data-go="coffee:' + r.id + '"><span class="date-tile"><b>' + slotDay(sl.d) + '</b><span>NOV</span></span><span class="row__main"><span class="row__t" style="display:block">Coffee with ' + esc(P[r.from].n) + '</span><span class="row__s" style="display:block">' + sl.t + ' · ' + esc(r.where) + '</span></span><svg class="row__chev"><use href="#i-chev"/></svg></button>';
       }).join('') + '</div>' : '') +
+      '<div style="margin:12px 16px 0"><button class="btn sm ghost" type="button" data-go="shows:agenda">' + ic('i-cal') + 'All my meetings</button></div>' +
       '<p class="section-h">Your connections going</p>' +
       '<div class="group">' + SHOW.going.map(function (k) {
         var p = P[k]; var done = state.coffee[k];
@@ -1146,15 +1170,58 @@ svg { display: block; }
       '<p class="section-h" style="margin-top:14px;line-height:1.45">Only connections who chose to share their show plans appear here.</p><div class="empty-pad"></div>';
   };
 
-  VIEWS.shows = function () {
-    return bar('Shows', 'Back') +
-      '<p class="section-h" style="line-height:1.45;margin-top:6px">Say which shows you are going to. Your connections see it a few days before, never the public.</p>' +
-      '<div class="group">' + SHOWS.map(function (sh) {
-        var on = state.plans[sh.id];
-        return '<button class="row" type="button" data-going="' + sh.id + '"><span class="date-tile"><b>' + sh.d + '</b><span>' + sh.m + '</span></span><span class="row__main"><span class="row__t" style="display:block">' + esc(sh.name) + '</span><span class="row__s" style="display:block">' + esc(sh.city + ', ' + sh.dates) + ' · ' + sh.n + ' connections going</span></span>' + (on ? '<span class="pill dark">' + ic('i-check') + 'Going</span>' : '<span class="pill">' + ic('i-plus') + 'Add</span>') + '</button>';
-      }).join('') + '</div>' +
-      '<p class="section-h" style="line-height:1.45">A show is missing? Members can suggest one and we add it within a day.</p>';
+  function agendaItems() {
+    var conf = [{ day: 'Tue 17', t: '10:00', k: 'pieter', where: 'Hall 1, stand 412', go: 'thread:m3' }];
+    REQUESTS.forEach(function (r) { if (r.status === 'accepted') { var sl = r.slots[r.pick]; conf.push({ day: sl.d, t: sl.t, k: r.from, where: r.where, go: 'coffee:' + r.id }); } });
+    conf.sort(function (a, b) { return (slotDay(a.day) + a.t).localeCompare(slotDay(b.day) + b.t); });
+    var mine = pendingReqs().map(function (r) { return { k: r.from, s: r.slots.map(function (x) { return x.d + ', ' + x.t; }).join(' or '), go: 'coffee:' + r.id }; });
+    var theirs = Object.keys(state.coffee).map(function (k) { return { k: k, s: state.coffee[k].join(' or '), go: 'person:' + k }; });
+    return { conf: conf, mine: mine, theirs: theirs };
+  }
+  VIEWS.shows = function (d) {
+    if (d.id && !d.seen) { state.planTab = d.id; d.seen = true; }
+    var tab = state.planTab, body;
+    if (tab === 'shows') {
+      var going = SHOWS.filter(function (sh) { return state.plans[sh.id]; });
+      var cells = MONTHS.map(function (m, i) {
+        var here = SHOWS.filter(function (sh) { return sh.mo === i; });
+        var go = here.some(function (sh) { return state.plans[sh.id]; });
+        return '<span class="year__m' + (i === 0 || i === 2 ? ' yr' : '') + '" data-y="' + (i === 0 ? '2026' : i === 2 ? '2027' : '') + '">' + m.charAt(0) + '<i class="' + (go ? 'go' : here.length ? 'has' : '') + '"></i></span>';
+      }).join('');
+      var months = [];
+      SHOWS.forEach(function (sh) { if (months.indexOf(sh.mo) < 0) months.push(sh.mo); });
+      body = '<div class="year"><div class="year__grid">' + cells + '</div><p>' +
+          (going.length ? 'You are going to ' + going.length + ' show' + (going.length > 1 ? 's' : '') + ': ' + esc(going.map(function (sh) { return sh.city; }).join(', ')) + '.' : 'Tap a show to say you are going. Filled dots are your trips.') +
+          ' September is the busy month: Cannes, Monaco and Genoa.</p></div>' +
+        months.map(function (mo) {
+          return '<p class="section-h">' + MONTHS_LONG[mo] + '</p><div class="group">' + SHOWS.filter(function (sh) { return sh.mo === mo; }).map(function (sh) {
+            var on = state.plans[sh.id];
+            return '<button class="row" type="button" data-going="' + sh.id + '"><span class="date-tile"><b>' + sh.d + '</b><span>' + sh.m + '</span></span><span class="row__main"><span class="row__t" style="display:block">' + esc(sh.name) + '</span><span class="row__s" style="display:flex;align-items:center;gap:12px;margin-top:5px"><span class="faces">' + sh.who.slice(0, 3).map(function (k) { return av(k, 'sm'); }).join('') + '</span>' + esc(sh.city) + ' · ' + sh.n + ' going</span></span>' + (on ? '<span class="pill dark">' + ic('i-check') + 'Going</span>' : '<span class="pill">' + ic('i-plus') + 'Add</span>') + '</button>';
+          }).join('') + '</div>';
+        }).join('') +
+        '<p class="section-h" style="line-height:1.45">A show is missing? Members can suggest one and we add it within a day. Months shown, exact dates come from each show.</p>';
+    } else {
+      var a = agendaItems(), days = [];
+      a.conf.forEach(function (x) { if (days.indexOf(x.day) < 0) days.push(x.day); });
+      body = '<p class="section-h" style="margin-top:10px">METSTRADE, Amsterdam · confirmed</p>' +
+        days.map(function (day) {
+          return '<p class="section-h" style="margin-top:12px;color:var(--ink);font-weight:600">' + day + ' Nov</p><div class="group">' + a.conf.filter(function (x) { return x.day === day; }).map(function (x) {
+            return '<button class="row" type="button" data-go="' + x.go + '"><span class="ag-time">' + x.t + '<small>Coffee</small></span>' + av(x.k, 'sm') + '<span class="row__main"><span class="row__t" style="display:block">' + esc(P[x.k].n) + '</span><span class="row__s" style="display:block">' + esc(x.where) + '</span></span></button>';
+          }).join('') + '</div>';
+        }).join('') +
+        (a.mine.length ? '<p class="section-h">Waiting for your answer</p><div class="group">' + a.mine.map(function (x) {
+          return '<button class="row" type="button" data-go="' + x.go + '">' + av(x.k) + '<span class="row__main"><span class="row__t" style="display:block">' + esc(P[x.k].n) + '</span><span class="row__s" style="display:block">' + esc(x.s) + '</span></span><span class="badge">Answer</span></button>';
+        }).join('') + '</div>' : '') +
+        (a.theirs.length ? '<p class="section-h">Waiting for their answer</p><div class="group">' + a.theirs.map(function (x) {
+          return '<button class="row" type="button" data-go="' + x.go + '">' + av(x.k) + '<span class="row__main"><span class="row__t" style="display:block">' + esc(P[x.k].n) + '</span><span class="row__s" style="display:block">You suggested ' + esc(x.s) + '</span></span><span class="pill">Sent</span></button>';
+        }).join('') + '</div>' : '<p class="section-h" style="line-height:1.45">Coffees you suggest show here until the other person picks a time.</p>') +
+        '<div style="margin:18px 16px 0"><button class="btn block ghost" type="button" id="ag-cal">' + ic('i-cal') + 'Add to my calendar</button></div>';
+    }
+    return bar('Plan', 'Back') +
+      '<div class="seg" role="group" aria-label="Plan" style="grid-template-columns:repeat(2,1fr);margin-top:6px"><button type="button" data-plantab="shows" aria-pressed="' + (tab === 'shows') + '">Shows calendar</button><button type="button" data-plantab="agenda" aria-pressed="' + (tab === 'agenda') + '">My meetings</button></div>' +
+      body + '<div class="empty-pad"></div>';
   };
+  BIND.shows = function (el) { var b = $('#ag-cal', el); if (b) b.onclick = function () { toast('Added to your calendar'); }; };
 
   VIEWS.coffee = function (d) {
     var r = find(REQUESTS, d.id), p = P[r.from], first = p.n.split(' ')[0], body;
@@ -1364,7 +1431,7 @@ svg { display: block; }
             (pl ? 'Going, ' + esc(pl.days.join(', ')) + ' · ' + (pl.vis === 'conn' ? 'visible to connections' : 'only you') : 'Not shared yet. Are you going?') + '</span></span><svg class="row__chev"><use href="#i-chev"/></svg></button>';
         }).join('') +
         '<div class="row"><span class="date-tile"><b>Sep</b><span>2026</span></span><span class="row__main"><span class="row__t" style="display:block">Monaco Yacht Show</span><span class="row__s" style="display:block">Attended</span></span></div>' +
-        '<button class="row" type="button" data-go="shows"><span class="date-tile">' + ic('i-plus') + '</span><span class="row__main"><span class="row__t" style="display:block">Add a show you are going to</span><span class="row__s" style="display:block">boot, Palma, Monaco and more</span></span><svg class="row__chev"><use href="#i-chev"/></svg></button>' +
+        '<button class="row" type="button" data-go="shows:shows"><span class="date-tile">' + ic('i-cal') + '</span><span class="row__main"><span class="row__t" style="display:block">Shows calendar</span><span class="row__s" style="display:block">Plan your year, and see who is going where</span></span><svg class="row__chev"><use href="#i-chev"/></svg></button>' +
       '</div>' +
       '<p class="section-h">Connections, and where you met</p>' +
       '<div class="group">' + CONNECTIONS.map(function (k) {
@@ -1398,9 +1465,11 @@ svg { display: block; }
     { sec: 'Inside the app' },
     { k: 'home', t: 'Home', d: 'Posts from connections and rooms, newest first.', h: 'No algorithm and no ads in the first version.', go: function () { openAs('home'); } },
     { k: 'show', t: 'Show mode', d: 'Who from your network is at METSTRADE, and a coffee in one tap.', h: 'Show plans stay private unless the member shares them.', go: function () { openAs('home', 'show'); } },
-    { k: 'going', t: 'Saying you are going', d: 'Pick the days, visiting or exhibiting, who can see it.', h: 'Nobody sees your show plans until you share them.', go: function () { openAs('home', 'show'); setTimeout(function () { openSheet('going', { going: 'mets' }); highlightFor({ name: 'shows' }); }, 350); } },
+    { k: 'going', t: 'Saying you are going', d: 'Pick the days, visiting or exhibiting, who can see it.', h: 'Nobody sees your show plans until you share them.', go: function () { openAs('home', 'show'); setTimeout(function () { openSheet('going', { going: 'mets' }); }, 350); } },
     { k: 'coffee', t: 'A coffee request arrives', d: 'Accept a time, suggest another, or let it go.', h: 'Saying no is silent: the other person is never told.', go: function () { find(REQUESTS, 'c1').arrived = true; openAs('home', 'coffee', 'c1'); } },
     { k: 'post', t: 'Post and comments', d: 'Every name carries a role and a company.', h: 'One kind of post: text, with optional pictures.', go: function () { openAs('home', 'post', 'p1'); } },
+    { k: 'calendar', t: 'Shows calendar', d: 'Every show of the season by month, and who is going.', h: 'Seeing who will be there helps decide which trips are worth it.', go: function () { openAs('home', 'shows', 'shows'); } },
+    { k: 'agenda', t: 'My meetings', d: 'Coffees confirmed, waiting for you, waiting for them.', h: 'One agenda for the show, not a chat to scroll back through.', go: function () { openAs('home', 'shows', 'agenda'); } },
     { k: 'connect', t: 'Connecting with someone', d: 'You met in person, or a mutual connection introduces you.', h: 'No cold connection requests.', go: function () { openAs('home', 'person', 'elias'); } },
     { k: 'rooms', t: 'Rooms', d: 'My rooms, discover, pending requests.', h: 'Three kinds: by invitation, on request, open.', go: function () { openAs('rooms'); } },
     { k: 'room', t: 'Joining a room', d: 'A room on request: its admins answer.', h: 'Clubs can run their own private room.', go: function () { openAs('rooms', 'room', 'r2'); } },
@@ -1423,7 +1492,7 @@ svg { display: block; }
     closePanel();
   });
   function highlightFor(view) {
-    var k = { welcome: 'welcome', request: 'request', review: 'review', code: 'code', home: 'home', show: 'show', shows: 'going', coffee: 'coffee', post: 'post', rooms: 'rooms', room: 'room', msgs: 'thread', thread: 'thread', me: 'me' }[view.name];
+    var k = { welcome: 'welcome', request: 'request', review: 'review', code: 'code', home: 'home', show: 'show', shows: state.planTab === 'agenda' ? 'agenda' : 'calendar', coffee: 'coffee', post: 'post', rooms: 'rooms', room: 'room', msgs: 'thread', thread: 'thread', me: 'me' }[view.name];
     if (view.name === 'person' && view.data && view.data.id === 'elias') k = 'connect';
     if (view.name === 'table') k = (view.data && view.data.id === 't3') ? 'closed' : 'table';
     if (!k) return;
@@ -1509,6 +1578,8 @@ svg { display: block; }
     { sec: 'Shows and coffee', step: 'going', q: 'Do you only see who is going if you say you are going too?', opts: ['Yes, give to get', 'No, everyone sees it'] },
     { sec: 'Shows and coffee', step: 'coffee', q: 'Who can suggest a coffee?', opts: ['Connections only', 'Any member going to the same show', 'Connections, plus members of my rooms'] },
     { sec: 'Shows and coffee', step: 'coffee', q: 'Saying no to a coffee is silent: the other person is never told, the request just expires after the show. Right?' },
+    { sec: 'Shows and coffee', step: 'calendar', q: 'Beyond shows, can members share a trip, like "In Palma 3 to 5 March", so people there can suggest a coffee?', opts: ['Yes', 'Shows only', 'Later'] },
+    { sec: 'Shows and coffee', step: 'agenda', q: 'Should confirmed coffees go straight into the phone calendar?', opts: ['Yes, automatically', 'Only when I tap Add', 'No'] },
     { sec: 'Connections', step: 'connect', q: 'How do two people connect?', opts: ['In person only', 'In person, or introduced by a mutual connection', 'Anyone, with a short note'] },
     { sec: 'Connections', step: 'connect', q: 'What can you see of someone you are not connected to?', opts: ['The full profile', 'Name, role and company only', 'Nothing without a mutual connection'] }
   ];
