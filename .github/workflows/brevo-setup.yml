@@ -15,9 +15,11 @@ jobs:
           set -euo pipefail
           api() { curl -sS -H "api-key: $BREVO_API_KEY" -H "accept: application/json" -H "content-type: application/json" "$@"; }
           echo "Account:"; api https://api.brevo.com/v3/account | jq '{plan: .plan, ok: (.email != null), code, message}'
-          echo "Attributes:"; api https://api.brevo.com/v3/contacts/attributes | jq -r '.attributes[] | select(.category=="normal") | .name' | tr '\n' ' '; echo
+          echo "Attributes raw:"; api https://api.brevo.com/v3/contacts/attributes | jq -c '{code, message, names: [.attributes[]? | select(.category=="normal") | .name]}'
+          echo "Lists raw:"; api "https://api.brevo.com/v3/contacts/lists?limit=50&offset=0" | jq -c '{code, message, lists: [.lists[]? | {id, name}]}'
+          echo "Folders raw:"; api "https://api.brevo.com/v3/contacts/folders?limit=50&offset=0" | jq -c '{code, message, folders: [.folders[]? | {id, name}]}' 
           for a in FIRSTNAME LASTNAME COMPANY COMMENTS; do
-            if ! api https://api.brevo.com/v3/contacts/attributes | jq -e --arg a "$a" '.attributes[] | select(.name==$a)' >/dev/null; then
+            if ! api https://api.brevo.com/v3/contacts/attributes | jq -e --arg a "$a" '.attributes[]? | select(.name==$a)' >/dev/null; then
               echo "create $a: $(api -X POST -d '{"type":"text"}' -o /dev/null -w '%{http_code}' https://api.brevo.com/v3/contacts/attributes/normal/$a)"
             fi
           done
