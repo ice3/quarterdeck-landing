@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KANDO</title>
 <meta name="description" content="Introducing KANDO, a professional networking platform created exclusively for the superyacht industry. Join the waitlist.">
-<meta name="theme-color" content="#fbfaf7">
+<meta name="theme-color" content="#FAF3EA">
 <meta property="og:title" content="KANDO">
 <meta property="og:description" content="Connect. Collaborate. Create change. A professional networking platform created exclusively for the superyacht industry.">
 <meta property="og:type" content="website">
@@ -418,7 +418,48 @@ html.no-io .reveal { opacity: 1; transform: none; }
 .logo--foot { height: 11px; color: var(--ink-3); }
 .modal__brand .logo { height: 12px; }
 .nav .brand .logo { width: auto; height: 15px; }
+:root { --bg: #FAF3EA; --bg-soft: #F2E8DA; --ink: #1f1b16; --ink-2: #5c554c; --ink-3: #7a7166; --line: rgba(31,27,22,.10); --field-line: #e2d6c4; --gold: #A68959; }
+.hero h1, .section h2, .step__title { color: var(--gold); }
+.btn { background: var(--gold); }
+.btn:hover { background: #8E7448; }
+.done .done__mark { background: var(--gold); }
+.logo { color: var(--ink); }
+::selection { background: var(--gold); color: #fff; }
+
+.nav { background: rgba(250,243,234,.82); }
+.modal__close:hover { background: #ece0cf; }
+.field input:hover, .field textarea:hover { border-color: #c9b89f; }
+
+:root { --serif: 'Cormorant Garamond', 'Times New Roman', serif; --sans: 'Mulish', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; --ink: #1f1b16; }
+body { font-weight: 300; letter-spacing: 0; }
+.nav--c { background: rgba(250,243,234,.9); border-bottom: 0; --nav-h: 72px; height: 72px; }
+.nav--c .brand .logo { height: 22px; color: var(--ink); }
+.btn--sm { padding: .6rem 1.4rem; font-size: 14px; font-weight: 400; }
+.c { padding: calc(72px + 1.5rem) 1rem 3rem; text-align: center; }
+.c__wrap { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+.c__rule { display: block; width: 72px; height: 1px; background: var(--gold); margin: 2.25rem 0 1.75rem; }
+.c__wrap > .c__rule:first-child { margin-top: 0; }
+.c__eyebrow { margin: 0; font-size: 12px; font-weight: 400; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); line-height: 1.9; }
+.c__h1 { margin: 1.75rem 0 0; font-family: var(--serif); font-weight: 500; font-size: clamp(2.1rem, 1.2rem + 3vw, 3.4rem); line-height: 1.08; letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
+.c__intro { margin: 1.25rem 0 0; max-width: 46ch; font-size: clamp(1.1rem, 1rem + .35vw, 1.3rem); line-height: 1.45; color: var(--ink); text-wrap: balance; }
+.c__body { margin: .9rem 0 0; max-width: 54ch; font-size: 1rem; line-height: 1.6; color: var(--ink-2); text-wrap: balance; }
+.c__h2 { margin: 0; max-width: 32ch; font-family: var(--serif); font-weight: 500; font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.25rem); line-height: 1.2; letter-spacing: 0; color: var(--ink); text-wrap: balance; }
+.c__h3 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem); line-height: 1.2; color: var(--ink); }
+.btn--c { margin-top: 1.75rem; padding: .95rem 3.25rem; font-size: 16px; font-weight: 400; justify-content: center; width: auto; }
+.c__fine { margin: 1rem 0 0; max-width: 40ch; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; text-wrap: balance; }
+.footer--c { border-top: 0; padding: 1rem 0 2.5rem; text-align: center; }
+.footer--c .wrap--wide { justify-content: center; }
+.step__title { font-family: var(--serif); font-weight: 500; letter-spacing: 0; color: var(--ink); font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem); }
+@media (max-width: 640px) {
+  .nav--c .brand .logo { height: 17px; }
+  .nav--c .btn--sm { width: auto; padding: .55rem 1.1rem; }
+  .btn--c { width: 100%; max-width: 320px; }
+  .c__eyebrow { font-size: 11px; letter-spacing: .24em; }
+}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Mulish:wght@300;400;500&display=swap">
 <script>document.documentElement.className = (('IntersectionObserver' in window) ? '' : 'no-io');</script>
 <script
   src="https://feedback.eklalab.tech/sdk/feedback.umd.cjs"
@@ -448,49 +489,34 @@ html.no-io .reveal { opacity: 1; transform: none; }
   </defs>
 </svg>
 
-<header class="nav">
+<header class="nav nav--c">
   <div class="wrap--wide">
     <a class="brand" href="#top" aria-label="KANDO"><svg class="logo" viewBox="0 0 1340 251" aria-hidden="true"><use href="#logo"/></svg></a>
-    <a class="link" href="#apply" data-open-join>Join the waitlist</a>
+    <a class="btn btn--sm" href="#apply" data-open-join>Join KANDO</a>
   </div>
 </header>
 
-<main id="top">
+<main id="top" class="c">
+  <div class="c__wrap">
+    <span class="c__rule" aria-hidden="true"></span>
+    <p class="c__eyebrow">Professional networking platform<br>for the superyacht industry</p>
+    <h1 class="c__h1">Connect. Collaborate. Create change.</h1>
+    <p class="c__intro">Introducing KANDO, a professional networking platform created exclusively for the superyacht industry.</p>
+    <p class="c__body">The superyacht industry deserves its own space rather than being tossed into the maritime industry with commercial shipping and offshore operations.</p>
 
-  <section class="hero">
-    <div class="wrap">
-      <h1>Connect. Collaborate. Create change.</h1>
-      <p class="sub">Introducing KANDO, a professional networking platform created exclusively for the superyacht industry.</p>
-      <div class="actions">
-        <a class="btn" href="#apply" data-open-join>Join the waitlist <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></a>
-      </div>
-      <p class="hero__fine">Exclusively for professionals and businesses operating within the superyacht industry.</p>
-    </div>
-  </section>
+    <span class="c__rule" aria-hidden="true"></span>
+    <h2 class="c__h2">A space for the voices that shape our industry. All worth being heard. One of them is yours.</h2>
+    <button class="btn btn--c" type="button" id="apply" data-open-join>Join the waitlist</button>
+    <p class="c__fine">Exclusively for professionals and businesses operating within the superyacht industry.</p>
 
-  <section class="section section--soft" aria-labelledby="space-title">
-    <div class="wrap reveal">
-      <h2 id="space-title" class="statement">The superyacht industry deserves its own space rather than being tossed into the maritime industry with commercial shipping and offshore operations.</h2>
-      <p class="lead">A space for the voices that shape our industry. All worth being heard. One of them is yours.</p>
-    </div>
-  </section>
-
-  <section class="section cta" id="apply" aria-labelledby="apply-title">
-    <div class="wrap reveal">
-      <h2 id="apply-title">Shape KANDO with us!</h2>
-      <p class="lead">We would love to hear what you are missing on other social/networking platforms.</p>
-      <div class="actions">
-        <button class="btn" type="button" data-open-join>Join the waitlist <span class="ic"><svg aria-hidden="true"><use href="#arrow"/></svg></span></button>
-      </div>
-      <p class="fine">Exclusively for professionals and businesses operating within the superyacht industry.</p>
-    </div>
-  </section>
-
+    <span class="c__rule" aria-hidden="true"></span>
+    <h2 class="c__h3">Shape KANDO with us!</h2>
+    <p class="c__body">We would love to hear what you are missing on other social and networking platforms.</p>
+  </div>
 </main>
 
-<footer>
+<footer class="footer--c">
   <div class="wrap--wide">
-    <p aria-label="KANDO"><svg class="logo logo--foot" viewBox="0 0 1340 251" aria-hidden="true"><use href="#logo"/></svg></p>
     <p><a href="mailto:contact@kando.network">contact@kando.network</a></p>
   </div>
 </footer>
