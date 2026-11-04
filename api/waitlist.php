@@ -38,22 +38,33 @@ if (!is_array($cfg) || empty($cfg['brevo_key']) || !LIST_ID) reply(503, false, '
 $attributes = ['PRENOM' => $first, 'NOM' => $last, 'COMPANY' => $company];
 if ($comments !== '') $attributes['COMMENTS'] = $comments;
 
-$ch = curl_init('https://api.brevo.com/v3/contacts');
-curl_setopt_array($ch, [
-    CURLOPT_POST => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 10,
-    CURLOPT_HTTPHEADER => ['api-key: ' . $cfg['brevo_key'], 'accept: application/json', 'content-type: application/json'],
-    CURLOPT_POSTFIELDS => json_encode([
-        'email' => $email,
+function brevo($method, $path, $key, $data) {
+    $ch = curl_init('https://api.brevo.com/v3' . $path);
+    curl_setopt_array($ch, [
+        CURLOPT_CUSTOMREQUEST => $method,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_HTTPHEADER => ['api-key: ' . $key, 'accept: application/json', 'content-type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode($data),
+    ]);
+    $body = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return [$status, $body];
+}
+
+// New contacts start as Pending (STATUS 1). A returning contact keeps the status we already gave them.
+[$status, $body] = brevo('POST', '/contacts', $cfg['brevo_key'], [
+    'email' => $email,
+    'attributes' => $attributes + ['STATUS' => 1],
+    'listIds' => [LIST_ID],
+]);
+if ($status === 400 && strpos((string)$body, 'duplicate') !== false) {
+    [$status, $body] = brevo('PUT', '/contacts/' . rawurlencode($email) . '?identifierType=email_id', $cfg['brevo_key'], [
         'attributes' => $attributes,
         'listIds' => [LIST_ID],
-        'updateEnabled' => true,
-    ]),
-]);
-$body = curl_exec($ch);
-$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+    ]);
+}
 
 if ($status === 201 || $status === 204) reply(200, true);
 error_log('KANDO waitlist: Brevo answered ' . $status . ' ' . substr((string)$body, 0, 300));
