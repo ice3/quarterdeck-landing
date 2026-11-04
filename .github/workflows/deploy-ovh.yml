@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir -p public
           cp index.html .htaccess public/
-          cp -R app-vibe-check preview-a preview-b preview-c public/
+          cp -R app-vibe-check preview-a preview-b preview-c api public/
 
       - name: Upload to OVH www/
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

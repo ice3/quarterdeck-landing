@@ -16,3 +16,5 @@
 !preview-b/index.html
 !preview-c/
 !preview-c/index.html
+!api/
+!api/*.php
