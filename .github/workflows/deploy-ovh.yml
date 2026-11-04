@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir -p public
           cp index.html .htaccess public/
-          cp -R app-vibe-check preview-a preview-b preview-c api public/
+          cp -R app-vibe-check preview-a preview-b preview-c api privacy terms fonts public/
 
       - name: Upload to OVH www/
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -32,3 +32,21 @@ jobs:
           port: 21
           local-dir: ./public/
           server-dir: ./www/
+
+      - name: Write private config
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          mkdir -p private
+          printf "<?php\nreturn ['brevo_key' => '%s'];\n" "$BREVO_API_KEY" > private/config.php
+
+      - name: Upload private config outside www/
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.cluster129.hosting.ovh.net
+          username: kandonl
+          password: ${{ secrets.OVH_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./private/
+          server-dir: ./kando-private/

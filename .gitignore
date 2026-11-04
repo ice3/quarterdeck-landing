@@ -18,3 +18,9 @@
 !preview-c/index.html
 !api/
 !api/*.php
+!privacy/
+!privacy/index.html
+!terms/
+!terms/index.html
+!fonts/
+!fonts/*.woff2
