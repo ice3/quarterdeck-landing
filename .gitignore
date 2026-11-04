@@ -10,3 +10,7 @@
 !app-vibe-check/index.html
 !app-vibe-check/img/
 !app-vibe-check/img/*.jpg
+!preview-a/
+!preview-a/index.html
+!preview-b/
+!preview-b/index.html
