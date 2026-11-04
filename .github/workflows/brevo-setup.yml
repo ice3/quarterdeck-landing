@@ -1,0 +1,30 @@
+name: Brevo setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    environment: OVH
+    env:
+      BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+    steps:
+      - name: Create the waitlist list and contact fields
+        run: |
+          set -euo pipefail
+          api() { curl -sS -H "api-key: $BREVO_API_KEY" -H "accept: application/json" -H "content-type: application/json" "$@"; }
+          echo "Account:"; api https://api.brevo.com/v3/account | jq '{plan: .plan, ok: (.email != null), code, message}'
+          echo "Attributes:"; api https://api.brevo.com/v3/contacts/attributes | jq -r '.attributes[] | select(.category=="normal") | .name' | tr '\n' ' '; echo
+          for a in FIRSTNAME LASTNAME COMPANY COMMENTS; do
+            if ! api https://api.brevo.com/v3/contacts/attributes | jq -e --arg a "$a" '.attributes[] | select(.name==$a)' >/dev/null; then
+              echo "create $a: $(api -X POST -d '{"type":"text"}' -o /dev/null -w '%{http_code}' https://api.brevo.com/v3/contacts/attributes/normal/$a)"
+            fi
+          done
+          folder=$(api "https://api.brevo.com/v3/contacts/folders?limit=50&offset=0" | jq -r '[.folders[]? | select(.name=="KANDO")][0].id // empty')
+          [ -n "$folder" ] || folder=$(api -X POST -d '{"name":"KANDO"}' https://api.brevo.com/v3/contacts/folders | jq -r .id)
+          list=$(api "https://api.brevo.com/v3/contacts/lists?limit=50&offset=0" | jq -r '[.lists[]? | select(.name=="Waitlist")][0].id // empty')
+          [ -n "$list" ] || list=$(api -X POST -d "{\"name\":\"Waitlist\",\"folderId\":$folder}" https://api.brevo.com/v3/contacts/lists | jq -r .id)
+          echo "Folder KANDO id: $folder"
+          echo "List Waitlist id: $list"
+          echo "Senders:"; api https://api.brevo.com/v3/senders | jq -c '[.senders[]? | {email, active}]'
