@@ -1,1 +1,4 @@
-<?php header("Content-Type: text/plain"); echo "php ok ", PHP_VERSION, " curl=", function_exists("curl_init") ? "yes" : "no", "\n";
+<?php
+header('Content-Type: text/plain');
+$ip = @file_get_contents('https://api.ipify.org');
+echo "php ok ", PHP_VERSION, " outbound_ip=", $ip ?: 'unknown', "\n";
