@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 header('Cache-Control: no-store');
 
-const LIST_ID = 0; // set after the Brevo setup run
+const LIST_ID = 4; // Brevo list "Waitlist" in folder "KANDO"
 
 function reply($code, $ok, $error = null) {
     http_response_code($code);
@@ -33,9 +33,9 @@ if ($first === '' || $last === '' || $company === '' || !filter_var($email, FILT
 }
 
 $cfg = @include __DIR__ . '/../../kando-private/config.php';
-if (!is_array($cfg) || empty($cfg['brevo_key']) || LIST_ID === 0) reply(503, false, 'config');
+if (!is_array($cfg) || empty($cfg['brevo_key']) || !LIST_ID) reply(503, false, 'config');
 
-$attributes = ['FIRSTNAME' => $first, 'LASTNAME' => $last, 'COMPANY' => $company];
+$attributes = ['PRENOM' => $first, 'NOM' => $last, 'COMPANY' => $company];
 if ($comments !== '') $attributes['COMMENTS'] = $comments;
 
 $ch = curl_init('https://api.brevo.com/v3/contacts');
