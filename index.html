@@ -681,9 +681,11 @@ body { font-weight: 300; letter-spacing: 0; }
       document.getElementById('j-done-copy').textContent =
         'Thank you, ' + data.first_name + '. We\'ll be in touch at ' + data.email + '.';
       show('done');
-    }).catch(function () {
+    }).catch(function (err) {
       next.disabled = false;
-      setError(field('comments'), 'Your registration could not be sent. Check your connection and try again.');
+      setError(field('comments'), err.message === 'rate'
+        ? 'Too many attempts. Please try again in a few minutes.'
+        : 'Your registration could not be sent. Check your connection and try again.');
     });
   });
 })();

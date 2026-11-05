@@ -19,6 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') reply(405, false, 'method');
 $in = json_decode(file_get_contents('php://input'), true);
 if (!is_array($in)) reply(400, false, 'body');
 
+// At most 5 attempts per IP in 10 minutes. The IP is stored hashed, outside www/.
+function too_many_attempts($ip) {
+    $dir = __DIR__ . '/../../kando-private/rate';
+    if (!is_dir($dir)) @mkdir($dir, 0700, true);
+    $f = @fopen($dir . '/' . hash('sha256', $ip) . '.txt', 'c+');
+    if (!$f) return false; // never block signups because of a file problem
+    flock($f, LOCK_EX);
+    $now = time();
+    $times = array_filter(array_map('intval', explode(',', stream_get_contents($f))), function ($t) use ($now) { return $t > $now - 600; });
+    $blocked = count($times) >= 5;
+    if (!$blocked) $times[] = $now;
+    ftruncate($f, 0);
+    rewind($f);
+    fwrite($f, implode(',', $times));
+    flock($f, LOCK_UN);
+    fclose($f);
+    return $blocked;
+}
+if (too_many_attempts($_SERVER['REMOTE_ADDR'] ?? '')) reply(429, false, 'rate');
+
 // Honeypot: real visitors never fill this field.
 if (field($in, 'website', 200) !== '') reply(200, true);
 
