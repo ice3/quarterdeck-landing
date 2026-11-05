@@ -79,6 +79,28 @@ function send_confirmation($key, $email, $first) {
     if ($status !== 201) error_log('KANDO confirmation: Brevo answered ' . $status . ' ' . substr((string)$body, 0, 300));
 }
 
+// Tells the team about each new signup. Reply-to is the applicant, so answering goes straight to them.
+function send_notification($key, $email, $first, $last, $company, $comments) {
+    $e = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
+    $rows = ['Name' => "$first $last", 'Company' => $company, 'Email' => $email, 'Comments' => $comments !== '' ? $comments : '-'];
+    $text = "New KANDO waitlist signup\n\n";
+    $html = '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#1f1b16"><p>New KANDO waitlist signup</p><table cellpadding="4">';
+    foreach ($rows as $label => $value) {
+        $text .= "$label: $value\n";
+        $html .= '<tr><td style="color:#8a8073;vertical-align:top">' . $label . '</td><td>' . nl2br($e($value)) . '</td></tr>';
+    }
+    $html .= '</table><p><a href="https://app.brevo.com/contact/list-listing/id/' . LIST_ID . '" style="color:#A68959">Open the Waitlist in Brevo</a></p></div>';
+    [$status, $body] = brevo('POST', '/smtp/email', $key, [
+        'sender' => ['name' => 'KANDO waitlist', 'email' => 'contact@kando.network'],
+        'replyTo' => ['email' => $email, 'name' => "$first $last"],
+        'to' => [['email' => 'contact@kando.network']],
+        'subject' => "New signup: $first $last, $company",
+        'htmlContent' => $html,
+        'textContent' => $text,
+    ]);
+    if ($status !== 201) error_log('KANDO notification: Brevo answered ' . $status . ' ' . substr((string)$body, 0, 300));
+}
+
 // New contacts start as Pending (STATUS 1). A returning contact keeps the status we already gave them.
 [$status, $body] = brevo('POST', '/contacts', $cfg['brevo_key'], [
     'email' => $email,
@@ -92,7 +114,10 @@ if ($status === 400 && strpos((string)$body, 'duplicate') !== false) {
     ]);
 }
 
-if ($status === 201) send_confirmation($cfg['brevo_key'], $email, $first);
+if ($status === 201) {
+    send_confirmation($cfg['brevo_key'], $email, $first);
+    send_notification($cfg['brevo_key'], $email, $first, $last, $company, $comments);
+}
 if ($status === 201 || $status === 204) reply(200, true);
 error_log('KANDO waitlist: Brevo answered ' . $status . ' ' . substr((string)$body, 0, 300));
 reply(502, false, 'brevo');
