@@ -532,12 +532,12 @@ body { font-weight: 300; letter-spacing: 0; }
         <div class="field-row">
           <div class="field">
             <label for="j-first">First name</label>
-            <input id="j-first" name="first_name" type="text" autocomplete="given-name">
+            <input id="j-first" name="first_name" type="text" autocomplete="given-name" maxlength="50">
             <div class="msg" aria-live="polite"></div>
           </div>
           <div class="field">
             <label for="j-last">Last name</label>
-            <input id="j-last" name="last_name" type="text" autocomplete="family-name">
+            <input id="j-last" name="last_name" type="text" autocomplete="family-name" maxlength="50">
             <div class="msg" aria-live="polite"></div>
           </div>
         </div>
@@ -620,6 +620,10 @@ body { font-weight: 300; letter-spacing: 0; }
     [['first_name', 'Enter your first name.'], ['last_name', 'Enter your last name.'], ['company', 'Enter your company.']].forEach(function (r) {
       var input = field(r[0]);
       if (!input.value.trim()) { setError(input, r[1]); first = first || input; } else setNote(input);
+    });
+    ['first_name', 'last_name'].forEach(function (name) {
+      var input = field(name);
+      if (/https?:|www\.|@/i.test(input.value)) { setError(input, 'Please enter your name only, without links.'); first = first || input; }
     });
     var email = field('email'), e = email.value.trim();
     if (!e || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) { setError(email, 'Enter a valid email address.'); first = first || email; }

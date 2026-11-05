@@ -32,6 +32,12 @@ if ($first === '' || $last === '' || $company === '' || !filter_var($email, FILT
     reply(422, false, 'fields');
 }
 
+// Names are echoed in the emails we send, so keep them short and free of links.
+foreach (['first_name', 'last_name'] as $key) {
+    $raw = (string)($in[$key] ?? '');
+    if (mb_strlen(trim($raw)) > 50 || preg_match('~https?:|www\.|@|[\r\n]~i', $raw)) reply(422, false, 'name');
+}
+
 $cfg = @include __DIR__ . '/../../kando-private/config.php';
 if (!is_array($cfg) || empty($cfg['brevo_key']) || !LIST_ID) reply(503, false, 'config');
 
