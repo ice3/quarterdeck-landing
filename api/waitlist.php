@@ -37,7 +37,11 @@ function too_many_attempts($ip) {
     fclose($f);
     return $blocked;
 }
-if (too_many_attempts($_SERVER['REMOTE_ADDR'] ?? '')) reply(429, false, 'rate');
+// An IPv6 visitor controls a whole /64, so count the block, not the address.
+$ip = $_SERVER['REMOTE_ADDR'] ?? '';
+$bin = @inet_pton($ip);
+if ($bin !== false && strlen($bin) === 16) $ip = bin2hex(substr($bin, 0, 8)) . '::/64';
+if (too_many_attempts($ip)) reply(429, false, 'rate');
 
 // Honeypot: real visitors never fill this field.
 if (field($in, 'website', 200) !== '') reply(200, true);
